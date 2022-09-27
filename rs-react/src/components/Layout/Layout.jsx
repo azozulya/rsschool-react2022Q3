@@ -17,6 +17,9 @@ const Layout = () => {
                             <li className={style.menuItem}>
                                 <CustomLink to='/about'>About us</CustomLink>
                             </li>
+                            <li className={style.menuItem}>
+                                <CustomLink to='/search-form'>Search form</CustomLink>
+                            </li>
                         </ul>
                     </nav>
                 </div>
