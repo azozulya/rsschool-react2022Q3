@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/Layout/Layout';
 import Main from './pages/MainPage';
 import NotFound from './pages/NotFoundPage';
@@ -14,7 +14,7 @@ function App() {
           <Route index element={<Main />} />
           <Route path='about' element={<About />} />
           <Route path='404' element={<NotFound />} />
-          <Route path='*' element={<NotFound />} />
+          <Route path='*' element={<Navigate replace to={'404'} />} />
         </Route>
       </Routes>
     </>
