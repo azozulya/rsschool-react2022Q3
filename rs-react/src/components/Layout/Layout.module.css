@@ -1,0 +1,24 @@
+.header {
+    background-color: rgba(204, 204, 204, .30);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.active {
+    color: #61dafb;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+    margin: 1rem 0;
+    padding: 0;
+}
+
+.menuItem {
+    padding: .5rem;
+}

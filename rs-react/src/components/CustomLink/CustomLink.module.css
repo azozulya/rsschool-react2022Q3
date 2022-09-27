@@ -1,0 +1,15 @@
+.link {
+    color: darkblue;
+    text-decoration: none;
+    padding: 0.3rem 1rem;
+    border-radius: 0.4rem;
+}
+
+.link:not(.activeLink):hover {
+    background-color: hsla(182, 25%, 50%, 0.277);
+}
+
+.activeLink {
+    background-color: cadetblue;
+    color: #fff;
+}
