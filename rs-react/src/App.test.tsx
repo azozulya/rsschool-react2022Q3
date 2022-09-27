@@ -5,21 +5,33 @@ import App from './App';
 
 describe('App', () => {
   test('renders navigation', () => {
-    render(<BrowserRouter><App /></BrowserRouter>);
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
     const navElement = screen.getByRole('navigation');
     expect(navElement).toBeInTheDocument();
   });
 
   test('renders about page', () => {
-    render(<BrowserRouter><App /></BrowserRouter>);
-    const aboutLink = screen.getByRole('link', { name: /about/i })
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+    const aboutLink = screen.getByRole('link', { name: /about/i });
     fireEvent.click(aboutLink);
     expect(screen.getByRole('heading').textContent).toEqual('About');
   });
 
   test('renders not found page', () => {
     window.history.pushState('not found', '404', '/404');
-    render(<BrowserRouter><App /></BrowserRouter>);
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
     expect(screen.getByText(/not found/i)).toBeInTheDocument();
   });
-})
+});

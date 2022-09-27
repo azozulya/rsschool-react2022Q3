@@ -1,5 +1,5 @@
 type TSearch = {
-    searchStr: string;
-}
+  searchStr: string;
+};
 
-export type { TSearch }
+export type { TSearch };
