@@ -10,11 +10,11 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Layout />}>
+        <Route path="/" element={<Layout />}>
           <Route index element={<Main />} />
-          <Route path='about' element={<About />} />
-          <Route path='404' element={<NotFound />} />
-          <Route path='*' element={<Navigate replace to={'404'} />} />
+          <Route path="about" element={<About />} />
+          <Route path="404" element={<NotFound />} />
+          <Route path="*" element={<Navigate replace to={'404'} />} />
         </Route>
       </Routes>
     </>
