@@ -26,7 +26,7 @@
     "prepare": "cd .. && husky install rs-react/.husky"
   },
   "lint-staged": {
-    "*.(js|jsx)": ["npm run lint"]     
+    "*.(ts|tsx)": ["npm run lint"]     
   },
   "husky": {    
    "hooks": {      
