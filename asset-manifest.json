@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/azozulya-REACT2022Q3/static/css/main.6db3d8bd.css",
-    "main.js": "/azozulya-REACT2022Q3/static/js/main.903cee46.js",
+    "main.js": "/azozulya-REACT2022Q3/static/js/main.b4824a5a.js",
     "static/js/787.4b77759f.chunk.js": "/azozulya-REACT2022Q3/static/js/787.4b77759f.chunk.js",
     "index.html": "/azozulya-REACT2022Q3/index.html",
     "static/media/search.svg": "/azozulya-REACT2022Q3/static/media/search.f475df8d5b8bbce80f22.svg",
     "main.6db3d8bd.css.map": "/azozulya-REACT2022Q3/static/css/main.6db3d8bd.css.map",
-    "main.903cee46.js.map": "/azozulya-REACT2022Q3/static/js/main.903cee46.js.map",
+    "main.b4824a5a.js.map": "/azozulya-REACT2022Q3/static/js/main.b4824a5a.js.map",
     "787.4b77759f.chunk.js.map": "/azozulya-REACT2022Q3/static/js/787.4b77759f.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6db3d8bd.css",
-    "static/js/main.903cee46.js"
+    "static/js/main.b4824a5a.js"
   ]
 }
