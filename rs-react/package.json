@@ -18,6 +18,7 @@
   },
   "scripts": {
     "lint": "eslint . --ext .tsx --fix",
+    "prettier": "prettier --write src/**/*.tsx",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
