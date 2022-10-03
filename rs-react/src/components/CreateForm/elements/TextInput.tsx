@@ -34,7 +34,7 @@ export class TextInput extends Component<TProps, never> {
             type={this.props.type}
             ref={this.inputRef}
             onChange={this.changeHandler}
-            className={this.isShowError ? style.error : ''}
+            className={this.isShowError ? style.error : style.inp}
           />
         </label>
         {this.isShowError && <span className={style.errorMessage}>This is a required field</span>}

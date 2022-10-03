@@ -33,24 +33,30 @@ export class RadioGroup extends Component<TProps, never> {
     const isShowError = this.props.isShowError && !this.currentValue;
 
     return (
-      <p className={style.p}>
-        {this.groupLabel}
-        {this.groupItems.map((item, idx) => {
-          return (
-            <label key={'label' + idx}>
-              <input
-                key={item + 'inp' + idx}
-                type="radio"
-                name={this.groupName}
-                value={item}
-                onChange={this.changeHandler}
-              />
-              {item}
-            </label>
-          );
-        })}
+      <div className={style.p}>
+        <label className={style.label}>
+          {this.groupLabel}
+          <ul className={style.radioList}>
+            {this.groupItems.map((item, idx) => {
+              return (
+                <li key={'label' + idx}>
+                  <label className={style.radioLabel}>
+                    <input
+                      key={item + 'inp' + idx}
+                      type="radio"
+                      name={this.groupName}
+                      value={item}
+                      onChange={this.changeHandler}
+                    />
+                    {item}
+                  </label>
+                </li>
+              );
+            })}
+          </ul>
+        </label>
         {isShowError && <span className={style.errorMessage}>Choose your gender</span>}
-      </p>
+      </div>
     );
   }
 }

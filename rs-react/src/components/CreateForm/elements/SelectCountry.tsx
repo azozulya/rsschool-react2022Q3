@@ -3,6 +3,7 @@ import { COUNTRIES } from '../../../utils/constants';
 import style from '../CreateForm.module.css';
 
 type TProps = {
+  title: string;
   selectName: string;
   setValue: (key: string, value: string) => void;
   isShowError: boolean;
@@ -31,11 +32,18 @@ export class SelectCountry extends Component<TProps, never> {
 
     return (
       <p className={style.p}>
-        Country:
-        <select name="country" ref={this.selectRef} onChange={this.changeHandler}>
-          <option></option>
-          {countries}
-        </select>
+        <label className={style.label}>
+          {this.props.title}:
+          <select
+            name="country"
+            ref={this.selectRef}
+            onChange={this.changeHandler}
+            className={style.select}
+          >
+            <option></option>
+            {countries}
+          </select>
+        </label>
         {isShowError && <span className={style.errorMessage}>Choose country of birth</span>}
       </p>
     );
