@@ -102,8 +102,8 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
     return (
       <>
         <form className={style.form} onSubmit={this.submitFormHandler} ref={this.formRef}>
-          <fieldset>
-            <legend>Create user profile</legend>
+          <fieldset className={style.formWrapper}>
+            <legend className={style.formTitle}>Create user profile</legend>
 
             <TextInput
               type="text"
@@ -122,19 +122,8 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
             />
 
             <SelectCountry
+              title="Country"
               selectName="country"
-              setValue={this.saveParam}
-              isShowError={this.state.showError}
-            />
-
-            <CheckboxInput
-              inpName="married"
-              setValue={this.saveParam}
-              isShowError={this.state.showError}
-            />
-
-            <FileInput
-              inpName="avatar"
               setValue={this.saveParam}
               isShowError={this.state.showError}
             />
@@ -147,6 +136,17 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
               isShowError={this.state.showError}
             />
 
+            <FileInput
+              inpName="avatar"
+              setValue={this.saveParam}
+              isShowError={this.state.showError}
+            />
+
+            <CheckboxInput
+              inpName="married"
+              setValue={this.saveParam}
+              isShowError={this.state.showError}
+            />
             <input type="submit" disabled={!this.state.canSubmit} />
           </fieldset>
         </form>

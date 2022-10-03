@@ -16,7 +16,6 @@ export class CheckboxInput extends Component<TProps, never> {
   }
 
   clickHandler = () => {
-    console.log('checkbox change: ', this.checkboxRef.current?.checked);
     this.props.setValue(this.props.inpName, this.checkboxRef.current?.checked || false);
   };
 
@@ -32,9 +31,9 @@ export class CheckboxInput extends Component<TProps, never> {
             ref={this.checkboxRef}
             onClick={this.clickHandler}
           />
-          Married {this.checkboxRef.current?.checked ? 'yes' : 'no'}
+          Married
         </label>
-        {isShowError && <span className={style.errorMessage}>You has to married</span>}
+        {isShowError && <span className={style.errorMessage}>This is a required field</span>}
       </p>
     );
   }

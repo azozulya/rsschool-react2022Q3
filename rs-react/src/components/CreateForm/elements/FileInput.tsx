@@ -15,16 +15,21 @@ export class FileInput extends Component<TProps, never> {
     this.avatarRef = createRef<HTMLInputElement>();
   }
 
-  changeHandler = () => {
+  changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const avatarImg =
       this.avatarRef &&
       this.avatarRef.current &&
       this.avatarRef.current.files &&
-      this.avatarRef.current.files[0].name;
+      this.avatarRef.current.files[0];
+    const avatarImgUrl = avatarImg && URL.createObjectURL(avatarImg);
 
-    if (!avatarImg) return;
+    if (!avatarImg || !avatarImgUrl) return;
 
-    this.props.setValue(this.props.inpName, avatarImg);
+    this.props.setValue(this.props.inpName, avatarImgUrl);
+
+    const fileCustomElement = (event.target as HTMLInputElement)?.nextElementSibling;
+
+    fileCustomElement && (fileCustomElement.innerHTML = `<img src=${avatarImgUrl} />`);
   };
 
   render() {
@@ -32,15 +37,18 @@ export class FileInput extends Component<TProps, never> {
 
     return (
       <p className={style.p}>
-        <label htmlFor="avatar">Profile picture:</label>
-
-        <input
-          name={this.props.inpName}
-          type="file"
-          onChange={this.changeHandler}
-          accept=".jpg, .jpeg, .png"
-          ref={this.avatarRef}
-        />
+        <label htmlFor="avatar" className={style.file}>
+          <input
+            type="file"
+            aria-label="Choose file"
+            accept=".jpg, .jpeg, .png"
+            className={style.fileInp}
+            name={this.props.inpName}
+            onChange={this.changeHandler}
+            ref={this.avatarRef}
+          />
+          <span className={style.fileCustom}>Choose file...</span>
+        </label>
         {isShowError && <span className={style.errorMessage}>Choose file for avatar</span>}
       </p>
     );
