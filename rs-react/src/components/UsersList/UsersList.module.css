@@ -1,0 +1,30 @@
+.users {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.user {
+  box-shadow: 0 0 .3rem .1rem #eee;
+  border-radius: .3rem;
+  padding: .5rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.userContent {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.userAvatar {
+  max-height: 10rem;
+  gap: 2rem;
+}
+
+.userOption {
+  margin: .4rem 0;
+}

@@ -31,7 +31,7 @@ export class SelectCountry extends Component<TProps, never> {
     ));
 
     return (
-      <p className={style.p}>
+      <>
         <label className={style.label}>
           {this.props.title}:
           <select
@@ -45,7 +45,7 @@ export class SelectCountry extends Component<TProps, never> {
           </select>
         </label>
         {isShowError && <span className={style.errorMessage}>Choose country of birth</span>}
-      </p>
+      </>
     );
   }
 }
