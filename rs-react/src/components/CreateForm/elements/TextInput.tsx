@@ -26,10 +26,11 @@ export class TextInput extends Component<TProps, never> {
     this.isShowError = this.props.isShowError && !this.inputRef.current?.value;
 
     return (
-      <p className={style.p}>
+      <>
         <label className={style.label}>
           {this.props.label}:
           <input
+            autoComplete="off"
             name={this.props.inpName}
             type={this.props.type}
             ref={this.inputRef}
@@ -38,7 +39,7 @@ export class TextInput extends Component<TProps, never> {
           />
         </label>
         {this.isShowError && <span className={style.errorMessage}>This is a required field</span>}
-      </p>
+      </>
     );
   }
 }

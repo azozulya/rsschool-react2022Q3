@@ -7,6 +7,8 @@ type TProps = {
   setValue: (key: string, value: string) => void;
 };
 
+const IMG_EMPTY = 'No image';
+
 export class FileInput extends Component<TProps, never> {
   private avatarRef: RefObject<HTMLInputElement>;
 
@@ -15,28 +17,33 @@ export class FileInput extends Component<TProps, never> {
     this.avatarRef = createRef<HTMLInputElement>();
   }
 
-  changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  getAvatarImgUrl = () => {
     const avatarImg =
       this.avatarRef &&
       this.avatarRef.current &&
       this.avatarRef.current.files &&
       this.avatarRef.current.files[0];
-    const avatarImgUrl = avatarImg && URL.createObjectURL(avatarImg);
+    return avatarImg && URL.createObjectURL(avatarImg);
+  };
 
-    if (!avatarImg || !avatarImgUrl) return;
+  changeHandler = () => {
+    const avatarImgUrl = this.getAvatarImgUrl();
+
+    if (!avatarImgUrl) return;
 
     this.props.setValue(this.props.inpName, avatarImgUrl);
-
-    const fileCustomElement = (event.target as HTMLInputElement)?.nextElementSibling;
-
-    fileCustomElement && (fileCustomElement.innerHTML = `<img src=${avatarImgUrl} />`);
   };
 
   render() {
     const isShowError = this.props.isShowError && !this.avatarRef.current?.files?.length;
+    const avatarImgUrl = this.getAvatarImgUrl();
 
     return (
-      <p className={style.p}>
+      <>
+        <div className={style.filePreview}>
+          {avatarImgUrl ? <img src={avatarImgUrl} className={style.avatarPreview} /> : IMG_EMPTY}
+        </div>
+
         <label htmlFor="avatar" className={style.file}>
           <input
             type="file"
@@ -47,10 +54,12 @@ export class FileInput extends Component<TProps, never> {
             onChange={this.changeHandler}
             ref={this.avatarRef}
           />
-          <span className={style.fileCustom}>Choose file...</span>
+
+          <button className={style.fileCustom}>Choose file</button>
         </label>
+
         {isShowError && <span className={style.errorMessage}>Choose file for avatar</span>}
-      </p>
+      </>
     );
   }
 }

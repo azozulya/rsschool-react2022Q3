@@ -105,43 +105,52 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
           <fieldset className={style.formWrapper}>
             <legend className={style.formTitle}>Create user profile</legend>
 
-            <TextInput
-              type="text"
-              label="Name"
-              inpName="username"
-              setValue={this.saveParam}
-              isShowError={this.state.showError}
-            />
+            <div className={style.formContent}>
+              <div className={style.fileUploadWrapper}>
+                <FileInput
+                  inpName="avatar"
+                  setValue={this.saveParam}
+                  isShowError={this.state.showError}
+                />
+              </div>
 
-            <TextInput
-              type="date"
-              label="Date of birth"
-              inpName="birthday"
-              setValue={this.saveParam}
-              isShowError={this.state.showError}
-            />
+              <div>
+                <p className={style.p}>
+                  <TextInput
+                    type="text"
+                    label="Name"
+                    inpName="username"
+                    setValue={this.saveParam}
+                    isShowError={this.state.showError}
+                  />
+                </p>
 
-            <SelectCountry
-              title="Country"
-              selectName="country"
-              setValue={this.saveParam}
-              isShowError={this.state.showError}
-            />
+                <p className={style.twoColumn}>
+                  <TextInput
+                    type="date"
+                    label="Date of birth"
+                    inpName="birthday"
+                    setValue={this.saveParam}
+                    isShowError={this.state.showError}
+                  />
 
-            <RadioGroup
-              values={genderArray}
-              name="gender"
-              label="Gender"
-              setValue={this.saveParam}
-              isShowError={this.state.showError}
-            />
+                  <SelectCountry
+                    title="Country"
+                    selectName="country"
+                    setValue={this.saveParam}
+                    isShowError={this.state.showError}
+                  />
+                </p>
 
-            <FileInput
-              inpName="avatar"
-              setValue={this.saveParam}
-              isShowError={this.state.showError}
-            />
-
+                <RadioGroup
+                  values={genderArray}
+                  name="gender"
+                  label="Gender"
+                  setValue={this.saveParam}
+                  isShowError={this.state.showError}
+                />
+              </div>
+            </div>
             <CheckboxInput
               inpName="married"
               setValue={this.saveParam}
