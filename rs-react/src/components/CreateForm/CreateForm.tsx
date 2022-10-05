@@ -8,8 +8,8 @@ import FileInput from './elements/FileInput';
 import RadioGroup from './elements/RadioGroup';
 
 export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
-  private cardsList: JSX.Element[];
   private formRef: RefObject<HTMLFormElement>;
+  private genderArray: string[] = Object.values(EGender);
   private defaultState: TCreateFormState = {
     showError: false,
     canSubmit: false,
@@ -18,45 +18,54 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
       birthday: '',
       gender: '',
       avatar: '',
-      married: false,
+      agree: false,
       country: '',
     },
   };
+  private successRef: React.RefObject<HTMLDivElement>;
 
   constructor(props: TCreateFormProps) {
     super(props);
 
     this.formRef = createRef();
-
+    this.successRef = createRef();
     this.state = { ...this.defaultState };
-
-    this.cardsList = [];
   }
+
+  checkFormFilled = () => {
+    const { username, birthday, country, agree, gender, avatar } = this.state.user;
+    return (
+      agree &&
+      Boolean(username) &&
+      Boolean(birthday) &&
+      Boolean(country) &&
+      Boolean(gender) &&
+      Boolean(avatar)
+    );
+  };
 
   submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const { username, birthday, country, married, gender, avatar } = this.state.user;
+    const isFormFilled = this.checkFormFilled();
 
-    if (
-      Boolean(username) &&
-      Boolean(birthday) &&
-      Boolean(country) &&
-      married &&
-      Boolean(gender) &&
-      Boolean(avatar)
-    ) {
+    if (!isFormFilled) {
+      this.setState({ canSubmit: false, showError: true });
+      return;
+    }
+
+    this.setState({ canSubmit: false });
+    this.successRef.current?.classList.add(style.show);
+
+    setTimeout(() => {
       this.props.onAdd(this.state.user);
       this.formRef.current?.reset();
       this.setState({ ...this.defaultState });
-      return;
-    }
-    console.log('not submit: ', this.state);
-    this.setState({ canSubmit: false, showError: true });
+      this.successRef.current?.classList.remove(style.show);
+    }, 2000);
   };
 
   saveParam = (key: string, value: string | boolean) => {
-    console.log(key, value);
     this.setState(
       (prevState) => ({ ...prevState, user: { ...prevState.user, [key]: value } }),
       this.checkForm
@@ -64,17 +73,11 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
   };
 
   checkForm = () => {
-    const { username, birthday, country, married, gender, avatar } = this.state.user;
+    const { username, birthday, country, agree, gender, avatar } = this.state.user;
 
-    const noErrors =
-      Boolean(username) &&
-      Boolean(birthday) &&
-      Boolean(country) &&
-      Boolean(avatar) &&
-      Boolean(gender) &&
-      married;
+    const isFormFilled = this.checkFormFilled();
 
-    if (noErrors) {
+    if (isFormFilled) {
       this.setState({
         canSubmit: true,
         showError: false,
@@ -88,7 +91,7 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
         Boolean(country) ||
         Boolean(avatar) ||
         Boolean(gender) ||
-        married) &&
+        agree) &&
       !this.state.showError;
 
     this.setState({
@@ -97,8 +100,6 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
   };
 
   render() {
-    const genderArray: string[] = Object.values(EGender);
-
     return (
       <>
         <form className={style.form} onSubmit={this.submitFormHandler} ref={this.formRef}>
@@ -115,17 +116,15 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
               </div>
 
               <div>
-                <p className={style.p}>
-                  <TextInput
-                    type="text"
-                    label="Name"
-                    inpName="username"
-                    setValue={this.saveParam}
-                    isShowError={this.state.showError}
-                  />
-                </p>
+                <TextInput
+                  type="text"
+                  label="Name"
+                  inpName="username"
+                  setValue={this.saveParam}
+                  isShowError={this.state.showError}
+                />
 
-                <p className={style.twoColumn}>
+                <div className={style.twoColumn}>
                   <TextInput
                     type="date"
                     label="Date of birth"
@@ -140,26 +139,36 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
                     setValue={this.saveParam}
                     isShowError={this.state.showError}
                   />
-                </p>
+                </div>
 
                 <RadioGroup
-                  values={genderArray}
                   name="gender"
                   label="Gender"
+                  values={this.genderArray}
                   setValue={this.saveParam}
                   isShowError={this.state.showError}
                 />
               </div>
             </div>
+
             <CheckboxInput
-              inpName="married"
+              title="I consent to my personal data"
+              inpName="agree"
               setValue={this.saveParam}
               isShowError={this.state.showError}
             />
-            <input type="submit" disabled={!this.state.canSubmit} />
+
+            <input type="submit" disabled={!this.state.canSubmit} className={style.submit} />
           </fieldset>
         </form>
-        <div>{this.cardsList.length > 0 && this.cardsList.map((card) => card)}</div>
+        <div className={style.success} ref={this.successRef}>
+          <div>
+            <p>User was added!</p>
+            <button onClick={() => this.successRef.current?.classList.remove(style.show)}>
+              close
+            </button>
+          </div>
+        </div>
       </>
     );
   }

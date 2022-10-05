@@ -58,7 +58,7 @@ export class FileInput extends Component<TProps, never> {
           <button className={style.fileCustom}>Choose file</button>
         </label>
 
-        {isShowError && <span className={style.errorMessage}>Choose file for avatar</span>}
+        {isShowError && <span className={style.error}>Choose file for avatar</span>}
       </>
     );
   }

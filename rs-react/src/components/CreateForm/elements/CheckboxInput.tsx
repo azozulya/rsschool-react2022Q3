@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import style from '../CreateForm.module.css';
 
 type TProps = {
+  title: string;
   inpName: string;
   isShowError: boolean;
   setValue: (key: string, value: boolean) => void;
@@ -23,18 +24,21 @@ export class CheckboxInput extends Component<TProps, never> {
     const isShowError = this.props.isShowError && !this.checkboxRef.current?.checked;
 
     return (
-      <p className={style.p}>
-        <label>
+      <div className={style.formElement}>
+        <label className={style.formCheckbox}>
           <input
             type="checkbox"
             name={this.props.inpName}
             ref={this.checkboxRef}
             onClick={this.clickHandler}
           />
-          Married
+          {this.props.title}
         </label>
-        {isShowError && <span className={style.errorMessage}>This is a required field</span>}
-      </p>
+
+        {isShowError && (
+          <span className={`${style.error} ${style.errorAbsolute}`}>This is a required field</span>
+        )}
+      </div>
     );
   }
 }

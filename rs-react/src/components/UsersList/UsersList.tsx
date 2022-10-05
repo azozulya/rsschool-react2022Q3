@@ -12,19 +12,24 @@ export class UsersList extends Component<TProps> {
   }
 
   createUserCard = (user: TUserCard) => {
-    const { id, username, birthday, country, married, gender, avatar } = user;
+    const { id, username, birthday, country, gender, avatar } = user;
     return (
       <div key={id} className={style.user}>
         <img src={avatar} className={style.userAvatar} />
         <ul className={style.userContent}>
-          <li className={style.userOption}>Name: {username}</li>
           <li className={style.userOption}>
-            Birthday:
+            <span className={style.label}>Name:</span> {username}
+          </li>
+          <li className={style.userOption}>
+            <span className={style.label}>Gender:</span> {gender}
+          </li>
+          <li className={style.userOption}>
+            <span className={style.label}>Birthday:</span>
             {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(birthday))}
           </li>
-          <li className={style.userOption}>Country: {country}</li>
-          <li className={style.userOption}>{married ? 'Married' : 'Alone'}</li>
-          <li className={style.userOption}>Gender: {gender}</li>
+          <li className={style.userOption}>
+            <span className={style.label}>Country:</span> {country}
+          </li>
         </ul>
       </div>
     );

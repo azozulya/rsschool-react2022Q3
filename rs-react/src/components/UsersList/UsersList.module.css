@@ -8,7 +8,7 @@
 .user {
   box-shadow: 0 0 .3rem .1rem #eee;
   border-radius: .3rem;
-  padding: .5rem;
+  padding: .5rem 1rem .5rem .5rem;
   display: flex;
   gap: 2rem;
   align-items: center;
@@ -27,4 +27,10 @@
 
 .userOption {
   margin: .4rem 0;
+}
+.label {
+  font-weight: bold;
+  font-size: .7rem;
+  margin-right: .2rem;
+  color: #0000007d;
 }
