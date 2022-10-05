@@ -9,12 +9,9 @@ export class FormPage extends Component {
   };
 
   addUserHandler = (user: TUserCard) => {
-    this.setState(
-      (prevState: { users: TUserCard[] }) => {
-        return { users: [...prevState.users, { ...user, id: Date.now() }] };
-      },
-      () => console.log(this.state)
-    );
+    this.setState((prevState: { users: TUserCard[] }) => {
+      return { users: [...prevState.users, { ...user, id: Date.now() }] };
+    });
   };
 
   render() {
