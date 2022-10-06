@@ -25,7 +25,7 @@ export class UsersList extends Component<TProps> {
           </li>
           <li className={style.userOption}>
             <span className={style.label}>Birthday:</span>
-            {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(birthday))}
+            {new Intl.DateTimeFormat('en-UK', { dateStyle: 'medium' }).format(new Date(birthday))}
           </li>
           <li className={style.userOption}>
             <span className={style.label}>Country:</span> {country}
