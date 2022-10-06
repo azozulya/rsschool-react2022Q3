@@ -85,24 +85,28 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
       return;
     }
 
-    const canSubmit =
-      (Boolean(username) ||
-        Boolean(birthday) ||
-        Boolean(country) ||
-        Boolean(avatar) ||
-        Boolean(gender) ||
-        agree) &&
-      !this.state.showError;
-
     this.setState({
-      canSubmit,
+      canSubmit:
+        (Boolean(username) ||
+          Boolean(birthday) ||
+          Boolean(country) ||
+          Boolean(avatar) ||
+          Boolean(gender) ||
+          agree) &&
+        !this.state.showError,
     });
   };
 
   render() {
     return (
       <>
-        <form className={style.form} onSubmit={this.submitFormHandler} ref={this.formRef}>
+        <form
+          aria-label="Create user form"
+          data-testid="createForm"
+          className={style.form}
+          onSubmit={this.submitFormHandler}
+          ref={this.formRef}
+        >
           <fieldset className={style.formWrapper}>
             <legend className={style.formTitle}>Create user profile</legend>
 
@@ -158,10 +162,15 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
               isShowError={this.state.showError}
             />
 
-            <input type="submit" disabled={!this.state.canSubmit} className={style.submit} />
+            <input
+              type="submit"
+              disabled={!this.state.canSubmit}
+              className={style.submit}
+              value="Submit"
+            />
           </fieldset>
         </form>
-        <div className={style.success} ref={this.successRef}>
+        <div className={style.success} ref={this.successRef} data-testid="successMessage">
           <div>
             <p>User was added!</p>
             <button onClick={() => this.successRef.current?.classList.remove(style.show)}>
