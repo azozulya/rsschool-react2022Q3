@@ -4,7 +4,7 @@ import { Layout } from './components/Layout/Layout';
 import Main from './pages/MainPage';
 import NotFound from './pages/NotFoundPage';
 import About from './pages/AboutPage';
-import FormPage from './pages/FormPage/FormPage';
+import FormPage from './pages/FormPage';
 
 function App() {
   return (
