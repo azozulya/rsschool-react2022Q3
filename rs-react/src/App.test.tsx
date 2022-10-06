@@ -34,4 +34,14 @@ describe('App', () => {
     );
     expect(screen.getByText(/not found/i)).toBeInTheDocument();
   });
+
+  test('renders form page', () => {
+    window.history.pushState('form', 'form', '/form');
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+    expect(screen.getByText(/CREATE USER PROFILE/i)).toBeInTheDocument();
+  });
 });
