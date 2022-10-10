@@ -1,5 +1,5 @@
 import React from 'react';
-import { CustomLink } from '../components/CustomLink/CustomLink';
+import { NavLink } from 'react-router-dom';
 import style from './NotFoundPage.module.css';
 
 export default function NotFound() {
@@ -7,7 +7,7 @@ export default function NotFound() {
     <div className={style.message}>
       Page not found.
       <br /> Go to
-      <CustomLink to="/">main page</CustomLink>
+      <NavLink to="/">main page</NavLink>
     </div>
   );
 }

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
-import { CustomLink } from '../CustomLink/CustomLink';
+import { NavLink, Outlet } from 'react-router-dom';
 import style from './Layout.module.css';
+
+const activeClassName = [style.active, style.link].join(' ');
 
 const Layout = () => {
   return (
@@ -11,10 +12,21 @@ const Layout = () => {
           <nav>
             <ul className={style.menu}>
               <li className={style.menuItem}>
-                <CustomLink to="/">Main</CustomLink>
+                <NavLink
+                  to={'/'}
+                  className={({ isActive }) => (isActive ? activeClassName : style.link)}
+                  end
+                >
+                  Main
+                </NavLink>
               </li>
               <li className={style.menuItem}>
-                <CustomLink to="/about">About us</CustomLink>
+                <NavLink
+                  to={'/about'}
+                  className={({ isActive }) => (isActive ? activeClassName : style.link)}
+                >
+                  About
+                </NavLink>
               </li>
             </ul>
           </nav>
