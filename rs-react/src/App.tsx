@@ -4,7 +4,6 @@ import { Layout } from './components/Layout/Layout';
 import Main from './pages/MainPage';
 import NotFound from './pages/NotFoundPage';
 import About from './pages/AboutPage';
-import './App.css';
 
 function App() {
   return (
