@@ -24,12 +24,9 @@
     border: none;
     background: #F8F8FA;
     border-radius: 25px;
-
     font-size: 1.7rem;
     padding: .5rem 1rem .5rem 3rem;
-
     color: rgba(7, 9, 40, 0.5);
-
     grid-column-start: 1;
     grid-column-end: 4;
     grid-row-start: 1;
