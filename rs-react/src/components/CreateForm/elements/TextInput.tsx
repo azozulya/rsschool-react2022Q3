@@ -2,10 +2,10 @@ import React, { Component, RefObject } from 'react';
 import style from '../CreateForm.module.css';
 
 type TProps = {
+  ariaLabel: string;
   label: string;
   inpName: string;
   type: 'text' | 'date';
-  ariaLabel: string;
   isShowError: boolean;
   setValue: (key: string, value: string) => void;
 };
@@ -31,7 +31,6 @@ export class TextInput extends Component<TProps, never> {
         <label className={style.label}>
           {this.props.label}:
           <input
-            aria-label={this.props.ariaLabel}
             autoComplete="off"
             name={this.props.inpName}
             type={this.props.type}

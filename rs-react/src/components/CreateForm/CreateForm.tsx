@@ -55,8 +55,8 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
       return;
     }
 
-    this.setState({ canSubmit: false, showSuccessMessage: true });
-    console.log(this.state);
+    this.setState({ canSubmit: false, showSuccessMessage: true }, () => console.log(this.state));
+
     setTimeout(() => {
       this.props.onAdd(this.state.user);
       this.formRef.current?.reset();
