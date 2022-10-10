@@ -19,7 +19,6 @@ class Card extends Component<CardProps, never> {
     const { image, title, author, category } = this.cardItem;
     return (
       <div className={style.card} data-testid="card">
-        {/* <img src={require(`${image}`)} alt="" /> */}
         <img src={`${image}`} alt="" className={style.image} />
         <div className={style.content}>
           <p className={style.title}>{title}</p>
