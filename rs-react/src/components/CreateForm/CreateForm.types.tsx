@@ -19,6 +19,7 @@ export enum EGender {
 type TCreateFormState = {
   canSubmit: boolean;
   showError: boolean;
+  showSuccessMessage: boolean;
   user: TUserCard;
 };
 

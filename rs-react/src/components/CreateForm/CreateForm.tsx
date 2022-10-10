@@ -12,6 +12,7 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
   private genderArray: string[] = Object.values(EGender);
   private defaultState: TCreateFormState = {
     showError: false,
+    showSuccessMessage: false,
     canSubmit: false,
     user: {
       username: '',
@@ -54,14 +55,12 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
       return;
     }
 
-    this.setState({ canSubmit: false });
-    this.successRef.current?.classList.add(style.show);
-
+    this.setState({ canSubmit: false, showSuccessMessage: true });
+    console.log(this.state);
     setTimeout(() => {
       this.props.onAdd(this.state.user);
       this.formRef.current?.reset();
       this.setState({ ...this.defaultState });
-      this.successRef.current?.classList.remove(style.show);
     }, 2000);
   };
 
@@ -102,7 +101,6 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
       <>
         <form
           aria-label="Create user form"
-          data-testid="createForm"
           className={style.form}
           onSubmit={this.submitFormHandler}
           ref={this.formRef}
@@ -121,18 +119,20 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
 
               <div>
                 <TextInput
+                  ariaLabel="User name"
+                  inpName="username"
                   type="text"
                   label="Name"
-                  inpName="username"
                   setValue={this.saveParam}
                   isShowError={this.state.showError}
                 />
 
                 <div className={style.twoColumn}>
                   <TextInput
+                    ariaLabel="User birthday"
+                    inpName="birthday"
                     type="date"
                     label="Date of birth"
-                    inpName="birthday"
                     setValue={this.saveParam}
                     isShowError={this.state.showError}
                   />
@@ -163,6 +163,7 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
             />
 
             <input
+              name="submitBtn"
               type="submit"
               disabled={!this.state.canSubmit}
               className={style.submit}
@@ -170,14 +171,13 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
             />
           </fieldset>
         </form>
-        <div className={style.success} ref={this.successRef} data-testid="successMessage">
-          <div>
-            <p>User was added!</p>
-            <button onClick={() => this.successRef.current?.classList.remove(style.show)}>
-              close
-            </button>
+        {this.state.showSuccessMessage && (
+          <div className={style.success} ref={this.successRef} data-testid="successMessage">
+            <div>
+              <p>User was added!</p>
+            </div>
           </div>
-        </div>
+        )}
       </>
     );
   }
