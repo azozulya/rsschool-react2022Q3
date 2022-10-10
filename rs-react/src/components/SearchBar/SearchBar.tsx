@@ -39,7 +39,7 @@ class SearchBar extends Component<TSearchProps, TSearch> {
           value={this.state.searchStr}
           placeholder="Search"
           onChange={this.changeHandler}
-          className={style.inp}
+          className={style.input}
         />
       </form>
     );
