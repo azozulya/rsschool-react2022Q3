@@ -1,4 +1,5 @@
 type TCard = {
+  id: number;
   image: string;
   title: string;
   author: {

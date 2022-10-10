@@ -2,6 +2,7 @@ import { TCard } from '../components/Cards/Card/TCard';
 
 const CardsData: TCard[] = [
   {
+    id: 345,
     image:
       'https://images.unsplash.com/photo-1613578723854-972200002cc7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
     title:
@@ -14,6 +15,7 @@ const CardsData: TCard[] = [
     category: 'Travel',
   },
   {
+    id: 2423,
     image:
       'https://images.unsplash.com/photo-1663219619979-5dd51f7cc8c7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1824&q=80',
     title: '',
