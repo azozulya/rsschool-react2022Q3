@@ -1,7 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import CreateForm from './CreateForm';
-import userEvent from '@testing-library/user-event';
 
 describe('Form', () => {
   beforeEach(() => {
@@ -9,11 +8,11 @@ describe('Form', () => {
   });
 
   test('renders form', () => {
-    expect(screen.getByRole('form')).toBeInTheDocument();
+    expect(screen.getByTestId('createForm')).toBeInTheDocument();
   });
 
   test('renders disabled submit button', () => {
-    const btn = screen.getByRole('button', { name: /submit/i });
+    const btn = screen.getByDisplayValue(/submit/i);
     expect(btn).toBeInTheDocument();
     expect(btn).toBeDisabled();
   });
@@ -33,21 +32,9 @@ describe('Form', () => {
     expect(btn).not.toBeDisabled();
   });
 
-  // test('check upload file', () => {
-  //   const testImg = './assets/test-img.png';
-  // const file = new File([testImg], 'test-img.png', { type: 'image/png' });
-  // const input = screen.getByLabelText(/Choose file/i);
-
-  //userEvent.upload(input, file);
-
-  // expect(input.files[0]).toBe(file)
-  // expect(input.files.item(0)).toBe(file)
-  // expect(input.files).toHaveLength(1)
-  // });
-
   test('check form fields before submit', async () => {
     const nameInput = screen.getByLabelText(/name/i);
-    const btn = screen.getByRole('button', { name: /submit/i });
+    const btn = screen.getByDisplayValue(/submit/i);
 
     fireEvent.change(nameInput, { target: { value: 'Nick' } });
 
@@ -57,38 +44,9 @@ describe('Form', () => {
     expect(errorMessages).toBeDefined();
   });
 
-  test('show success message after submit', async () => {
-    //const form = screen.getByRole('form');
-    const user = {
-      name: 'Nick',
-      birthday: '2000-05-05',
-      country: 'Italy',
-      gender: 'Male',
-    };
-    // const files = [
-    //   new File(['hello'], 'hello.png', { type: 'image/png' }),
-    //   new File(['there'], 'there.png', { type: 'image/png' }),
-    // ];
-    const nameInput = screen.getByRole('textbox', { name: /user name/i });
-    const dateInput = screen.getByLabelText(/birthday/i);
-    const select = screen.getByRole('combobox');
-    const radio = screen.getByRole('list');
-    const checkbox = screen.getByRole('checkbox');
-    const btn = screen.getByRole('button', { name: /submit/i });
+  // test('show success message after submit', async () => {
+  //   const form = screen.getByTestId('createForm');
 
-    expect(btn).toBeDisabled();
-    userEvent.paste(nameInput, user.name);
-    userEvent.paste(dateInput, user.birthday);
-    userEvent.selectOptions(select, user.country);
-    userEvent.click(checkbox);
-    userEvent.click(radio);
-
-    expect(btn).toBeEnabled();
-    userEvent.click(btn);
-
-    //const successMessage = await screen.findByTestId('successMessage');
-
-    // expect(successMessage).toBeInTheDocument();
-    // expect(successMessage).toBeVisible();
-  });
+  //   const successMessage = await screen.findByTestId('successMessage');
+  // });
 });
