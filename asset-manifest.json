@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/azozulya-REACT2022Q3/static/css/main.6db3d8bd.css",
-    "main.js": "/azozulya-REACT2022Q3/static/js/main.b4824a5a.js",
+    "main.css": "/azozulya-REACT2022Q3/static/css/main.5ca505d2.css",
+    "main.js": "/azozulya-REACT2022Q3/static/js/main.54683eb5.js",
     "static/js/787.4b77759f.chunk.js": "/azozulya-REACT2022Q3/static/js/787.4b77759f.chunk.js",
     "index.html": "/azozulya-REACT2022Q3/index.html",
     "static/media/search.svg": "/azozulya-REACT2022Q3/static/media/search.f475df8d5b8bbce80f22.svg",
-    "main.6db3d8bd.css.map": "/azozulya-REACT2022Q3/static/css/main.6db3d8bd.css.map",
-    "main.b4824a5a.js.map": "/azozulya-REACT2022Q3/static/js/main.b4824a5a.js.map",
+    "main.5ca505d2.css.map": "/azozulya-REACT2022Q3/static/css/main.5ca505d2.css.map",
+    "main.54683eb5.js.map": "/azozulya-REACT2022Q3/static/js/main.54683eb5.js.map",
     "787.4b77759f.chunk.js.map": "/azozulya-REACT2022Q3/static/js/787.4b77759f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6db3d8bd.css",
-    "static/js/main.b4824a5a.js"
+    "static/css/main.5ca505d2.css",
+    "static/js/main.54683eb5.js"
   ]
 }
