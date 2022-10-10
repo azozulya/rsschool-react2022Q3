@@ -22,7 +22,7 @@
 
 .input {
     border: none;
-    background: #F8F8FA;
+    background: rgb(248, 248, 250);
     border-radius: 25px;
     font-size: 1.7rem;
     padding: .5rem 1rem .5rem 3rem;
