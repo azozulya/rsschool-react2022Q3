@@ -5,6 +5,7 @@ type TProps = {
   label: string;
   inpName: string;
   type: 'text' | 'date';
+  ariaLabel: string;
   isShowError: boolean;
   setValue: (key: string, value: string) => void;
 };
@@ -30,6 +31,7 @@ export class TextInput extends Component<TProps, never> {
         <label className={style.label}>
           {this.props.label}:
           <input
+            aria-label={this.props.ariaLabel}
             autoComplete="off"
             name={this.props.inpName}
             type={this.props.type}
