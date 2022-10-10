@@ -18,8 +18,8 @@ class Cards extends Component<CardsProps, never> {
   render() {
     return (
       <div className={style.list}>
-        {this.cards.map((item: TCard) => (
-          <Card item={item} key={item.id.toString()} />
+        {this.cards.map((item: TCard, idx: number) => (
+          <Card item={item} key={item.id.toString() + idx} />
         ))}
       </div>
     );

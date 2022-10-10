@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className={style.message}>
       Page not found.
-      <br /> Go to
+      <br /> Go to &nbsp;
       <NavLink to="/">main page</NavLink>
     </div>
   );
