@@ -1,6 +1,6 @@
 import React from 'react';
-import Cards from '../components/Cards/Cards';
-import { SearchBar } from '../components/SearchBar/SearchBar';
+import { Cards } from '../components/Cards';
+import { SearchBar } from '../components/SearchBar';
 import { CardsData } from '../utils/cards';
 
 export default function Main() {

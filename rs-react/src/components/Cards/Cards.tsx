@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TCard } from './Card/TCard';
-import Card from './Card/Card';
+import { Card } from './Card';
 import style from './Cards.module.css';
 
 type CardsProps = {
