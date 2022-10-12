@@ -24,17 +24,20 @@ export class RadioGroup extends Component<TProps, never> {
   }
 
   createRefs = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return this.groupItems.map((_) => React.createRef<HTMLInputElement>());
+    return this.groupItems.map(() => React.createRef<HTMLInputElement>());
   };
 
-  changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.setValue(this.props.name, event.target?.value);
+  getCurrentElement = () => {
+    return this.groupRefs.find((ref) => ref.current?.checked)?.current || null;
+  };
+
+  changeHandler = () => {
+    const currentElement = this.getCurrentElement();
+    this.props.setValue(this.props.name, currentElement?.value || '');
   };
 
   render() {
-    const isShowError =
-      this.props.isShowError && !this.groupRefs.find((ref) => ref.current?.checked);
+    const isShowError = this.props.isShowError && !this.getCurrentElement();
 
     return (
       <div className={style.formElement}>
