@@ -22,6 +22,14 @@ export class Header extends Component {
               </li>
               <li className={style.menuItem}>
                 <NavLink
+                  to={'/form'}
+                  className={({ isActive }) => (isActive ? activeClassName : style.link)}
+                >
+                  Form
+                </NavLink>
+              </li>
+              <li className={style.menuItem}>
+                <NavLink
                   to={'/about'}
                   className={({ isActive }) => (isActive ? activeClassName : style.link)}
                 >
