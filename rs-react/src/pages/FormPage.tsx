@@ -16,7 +16,7 @@ export class FormPage extends Component {
   render() {
     return (
       <>
-        <CreateForm onAdd={this.addUserHandler} />
+        <CreateForm onSubmit={this.addUserHandler} />
         <UsersList users={this.state.users} />
       </>
     );

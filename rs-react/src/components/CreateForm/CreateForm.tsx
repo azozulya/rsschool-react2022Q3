@@ -2,7 +2,7 @@ import React, { Component, createRef, RefObject } from 'react';
 import SelectCountry from './elements/SelectCountry';
 import TextInput from './elements/TextInput';
 import CheckboxInput from './elements/CheckboxInput';
-import { EGender, TCreateFormProps, TCreateFormState } from './CreateForm.types';
+import { EGender, TCreateFormProps, TCreateFormState, TUserCard } from './CreateForm.types';
 import style from './CreateForm.module.css';
 import FileInput from './elements/FileInput';
 import RadioGroup from './elements/RadioGroup';
@@ -17,13 +17,14 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
     user: {
       username: '',
       birthday: '',
-      gender: '',
+      gender: undefined,
       avatar: '',
       agree: false,
       country: '',
     },
   };
   private successRef: React.RefObject<HTMLDivElement>;
+  private onSubmitFormHandler: (user: TUserCard) => void;
 
   constructor(props: TCreateFormProps) {
     super(props);
@@ -31,10 +32,13 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
     this.formRef = createRef();
     this.successRef = createRef();
     this.state = { ...this.defaultState };
+
+    this.onSubmitFormHandler = this.props.onSubmit;
   }
 
   checkFormFilled = () => {
     const { username, birthday, country, agree, gender, avatar } = this.state.user;
+
     return (
       agree &&
       Boolean(username) &&
@@ -45,7 +49,7 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
     );
   };
 
-  submitFormHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const isFormFilled = this.checkFormFilled();
@@ -58,7 +62,7 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
     this.setState({ canSubmit: false, showSuccessMessage: true });
 
     setTimeout(() => {
-      this.props.onAdd(this.state.user);
+      this.onSubmitFormHandler(this.state.user);
       this.formRef.current?.reset();
       this.setState({ ...this.defaultState });
     }, 1000);
@@ -102,7 +106,7 @@ export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
         <form
           aria-label="Create user form"
           className={style.form}
-          onSubmit={this.submitFormHandler}
+          onSubmit={this.submitHandler}
           ref={this.formRef}
         >
           <fieldset className={style.formWrapper}>

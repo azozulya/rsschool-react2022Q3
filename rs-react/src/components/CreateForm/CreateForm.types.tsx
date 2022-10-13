@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 type TUserCard = {
   id?: number;
   username: string;
-  gender: string;
+  gender: string | undefined;
   birthday: string;
   agree: boolean;
   avatar: string;
@@ -24,8 +24,7 @@ type TCreateFormState = {
 };
 
 type TCreateFormProps = {
-  onAdd: (user: TUserCard) => void;
-  children?: ReactNode | ReactNode[];
+  onSubmit: (user: TUserCard) => void;
 };
 
 export type { TCreateFormState, TCreateFormProps, TUserCard };
