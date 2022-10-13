@@ -41,13 +41,17 @@ export class FileInput extends Component<TProps, never> {
     return (
       <>
         <div className={style.filePreview}>
-          {avatarImgUrl ? <img src={avatarImgUrl} className={style.avatarPreview} /> : IMG_EMPTY}
+          {avatarImgUrl ? (
+            <img src={avatarImgUrl} className={style.avatarPreview} data-testid="avatarPreview" />
+          ) : (
+            IMG_EMPTY
+          )}
         </div>
 
         <label htmlFor="avatar" className={style.file}>
           <input
             type="file"
-            aria-label="Choose file"
+            aria-label="Choose avatar"
             accept=".jpg, .jpeg, .png"
             className={style.fileInp}
             name={this.props.inpName}
@@ -58,7 +62,11 @@ export class FileInput extends Component<TProps, never> {
           <button className={style.fileCustom}>Choose file</button>
         </label>
 
-        {isShowError && <span className={style.error}>Choose file for avatar</span>}
+        {isShowError && (
+          <span role="alert" className={style.error}>
+            Choose file for avatar
+          </span>
+        )}
       </>
     );
   }

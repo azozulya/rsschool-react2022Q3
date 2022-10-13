@@ -41,7 +41,9 @@ export class TextInput extends Component<TProps, never> {
           />
         </label>
         {this.isShowError && (
-          <span className={`${style.error} ${style.errorAbsolute}`}>This is a required field</span>
+          <span role="alert" className={`${style.error} ${style.errorAbsolute}`}>
+            This is a required field
+          </span>
         )}
       </div>
     );

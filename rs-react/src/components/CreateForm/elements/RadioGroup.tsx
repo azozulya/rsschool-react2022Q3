@@ -64,7 +64,9 @@ export class RadioGroup extends Component<TProps, never> {
         </ul>
 
         {isShowError && (
-          <span className={`${style.error} ${style.errorAbsolute}`}>Choose your gender</span>
+          <span role="alert" className={`${style.error} ${style.errorAbsolute}`}>
+            Choose your gender
+          </span>
         )}
       </div>
     );

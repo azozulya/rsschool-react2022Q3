@@ -36,7 +36,9 @@ export class CheckboxInput extends Component<TProps, never> {
         </label>
 
         {isShowError && (
-          <span className={`${style.error} ${style.errorAbsolute}`}>This is a required field</span>
+          <span role="alert" className={`${style.error} ${style.errorAbsolute}`}>
+            This is a required field
+          </span>
         )}
       </div>
     );

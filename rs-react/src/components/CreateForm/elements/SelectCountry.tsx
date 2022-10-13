@@ -45,7 +45,9 @@ export class SelectCountry extends Component<TProps, never> {
           </select>
         </label>
         {isShowError && (
-          <span className={`${style.error} ${style.errorAbsolute}`}>Choose country</span>
+          <span role="alert" className={`${style.error} ${style.errorAbsolute}`}>
+            Choose country
+          </span>
         )}
       </div>
     );
