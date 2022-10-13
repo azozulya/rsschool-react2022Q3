@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 type TUserCard = {
   id?: number;
   username: string;

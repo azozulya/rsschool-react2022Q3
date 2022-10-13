@@ -6,7 +6,7 @@
 }
 
 .user {
-  box-shadow: 0 0 .3rem .1rem #eee;
+  box-shadow: 0 0 .3rem .1rem rgb(238, 238, 238);
   border-radius: .3rem;
   padding: .5rem 1rem .5rem .5rem;
   display: flex;
@@ -36,5 +36,5 @@
   font-weight: bold;
   font-size: .7rem;
   margin-right: .2rem;
-  color: #0000007d;
+  color: rgba(0, 0, 0, 0.49);
 }

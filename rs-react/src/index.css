@@ -1,8 +1,10 @@
 @import-normalize;
+
 :root {
-  --secondary-color: #495057;
+  --secondary-color: rgb(73, 80, 87);
   --light-color: #d1d6dc
 }
+
 body {
   margin: 0;
   font-family: 'Oxygen', sans-serif;
