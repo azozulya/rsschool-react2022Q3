@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Card from './Card';
-import { cardsData } from '../../../assets/data/testCards';
+import { cardsData } from '../../../assets/testData/testCards';
 
 describe('Card', () => {
   test('render 1 card', () => {

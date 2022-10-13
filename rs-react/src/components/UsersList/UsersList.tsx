@@ -37,7 +37,11 @@ export class UsersList extends Component<TProps> {
 
   render() {
     const users = this.props.users;
-    return <div className={style.users}>{users.map((user) => this.createUserCard(user))}</div>;
+    return (
+      <div className={style.users} data-testid="usersList">
+        {users.map((user) => this.createUserCard(user))}
+      </div>
+    );
   }
 }
 
