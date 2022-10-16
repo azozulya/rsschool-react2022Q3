@@ -4,6 +4,7 @@ import { TSearch } from './TSearch';
 import style from './SearchBar.module.css';
 
 type TSearchProps = {
+  onSearch: (searchString: string) => void;
   props?: Record<string, never>;
 };
 
@@ -27,8 +28,9 @@ class SearchBar extends Component<TSearchProps, TSearch> {
     });
   };
 
-  submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.props.onSearch(this.state.searchStr);
   };
 
   render(): React.ReactNode {

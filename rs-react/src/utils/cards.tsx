@@ -1,4 +1,14 @@
-import { TCard } from '../components/Cards/Card/TCard';
+type TCard = {
+  id: number;
+  image: string;
+  title: string;
+  author: {
+    name: string;
+    link: string;
+  };
+  category: string;
+  place?: string;
+};
 
 const CardsData: TCard[] = [
   {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { TCard } from './TCard';
+import { TCard } from './types';
 import style from '../Cards.module.css';
+import { API_IMG_URL } from '../../../utils/constants';
 
 type CardProps = {
   key: string;
@@ -12,22 +13,22 @@ class Card extends Component<CardProps, never> {
 
   constructor(props: CardProps) {
     super(props);
-    this.cardItem = props.item;
+    this.cardItem = this.props.item;
   }
 
   render() {
-    const { image, title, author, category } = this.cardItem;
+    const { poster_path: image, title, release_date, popularity } = this.cardItem;
     return (
       <div className={style.card} data-testid="card">
-        <img src={`${image}`} alt="" className={style.image} />
+        {image && <img src={`${API_IMG_URL}${image}`} alt="" className={style.image} />}
         <div className={style.content}>
           <p className={style.title}>{title}</p>
           <p className={style.author}>
-            <a href={author.link} target="_blank" rel="noreferrer">
-              {author.name}
+            <a href="" target="_blank" rel="noreferrer">
+              {release_date}
             </a>
           </p>
-          <p className={style.category}>{category}</p>
+          <p className={style.category}>{popularity}</p>
         </div>
       </div>
     );

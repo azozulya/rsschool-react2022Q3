@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TCard } from './Card/TCard';
+import { TCard } from './Card/types';
 import { Card } from './Card';
 import style from './Cards.module.css';
 
@@ -8,17 +8,15 @@ type CardsProps = {
 };
 
 class Cards extends Component<CardsProps, never> {
-  private cards: TCard[];
-
   constructor(props: CardsProps) {
     super(props);
-    this.cards = props.items;
   }
 
   render() {
+    const cards = this.props.items;
     return (
       <div className={style.list}>
-        {this.cards.map((item: TCard, idx: number) => (
+        {cards.map((item: TCard, idx: number) => (
           <Card item={item} key={item.id.toString() + idx} />
         ))}
       </div>

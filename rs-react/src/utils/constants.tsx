@@ -2,4 +2,12 @@ const SEARCH_STRING_LS = 'search';
 
 const COUNTRIES = ['Cyprus', 'France', 'Italy', 'Spain'];
 
-export { SEARCH_STRING_LS, COUNTRIES };
+const API_KEY = '6fcb9620a842bea26304d7962404e1fe';
+
+const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&page=1&include_adult=true`;
+
+const API_POPULAR_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+
+const API_IMG_URL = 'https://image.tmdb.org/t/p/w500';
+
+export { SEARCH_STRING_LS, COUNTRIES, API_URL, API_IMG_URL, API_POPULAR_URL };
