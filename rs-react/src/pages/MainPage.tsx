@@ -3,8 +3,9 @@ import { getData } from '../api/getData';
 import { getPopular } from '../api/getPopular';
 import { Cards } from '../components/Cards';
 import { TCard, TCards } from '../components/Cards/Card/types';
-import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator';
 import { SearchBar } from '../components/SearchBar';
+import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator';
+import Modal from '../components/Modal/Modal';
 
 type TState = {
   title: string;
@@ -13,11 +14,13 @@ type TState = {
   total_results: number;
   results: TCard[];
   isLoading: boolean;
+  currentMovieID: number | null;
 };
 
 type TProps = Record<string, never>;
 
 class Main extends React.Component<TProps, TState> {
+  private paddingRight = '0px';
   state: TState;
 
   constructor(props: TProps) {
@@ -29,6 +32,7 @@ class Main extends React.Component<TProps, TState> {
       total_pages: 0,
       total_results: 0,
       isLoading: true,
+      currentMovieID: null,
     };
   }
 
@@ -58,14 +62,34 @@ class Main extends React.Component<TProps, TState> {
       }));
   };
 
+  clickHandler = (id: number) => {
+    this.setState({ currentMovieID: id });
+    console.log('paddingRight: ', this.paddingRight);
+    document.body.style.paddingRight = `${window.innerWidth - document.body.offsetWidth}px`;
+    document.body.classList.add('noscroll');
+  };
+
+  closeHandler = () => {
+    this.setState({ currentMovieID: null });
+    document.body.classList.remove('noscroll');
+    document.body.style.paddingRight = '0px';
+  };
+
   render() {
     return (
       <>
+        {this.state.currentMovieID && (
+          <Modal id={this.state.currentMovieID} onClose={this.closeHandler} />
+        )}
         <SearchBar onSearch={this.searchHandler} />
 
         <h2>{this.state.title}</h2>
 
-        {this.state.isLoading ? <LoadingIndicator /> : <Cards items={this.state.results} />}
+        {this.state.isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          <Cards items={this.state.results} onCardClick={this.clickHandler} />
+        )}
       </>
     );
   }

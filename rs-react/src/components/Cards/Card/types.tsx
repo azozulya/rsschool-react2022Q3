@@ -13,6 +13,7 @@ type TCard = {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  [key: string]: string | number | number[] | boolean;
 };
 
 type TCards = {

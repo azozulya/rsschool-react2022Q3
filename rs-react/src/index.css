@@ -18,6 +18,9 @@ code {
     monospace;
 }
 
+.noscroll {
+  overflow: hidden;
+}
 .container {
   box-sizing: border-box;
   padding: 0 2rem;

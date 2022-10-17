@@ -5,6 +5,7 @@ import style from './Cards.module.css';
 
 type CardsProps = {
   items: TCard[];
+  onCardClick: (id: number) => void;
 };
 
 class Cards extends Component<CardsProps, never> {
@@ -16,8 +17,8 @@ class Cards extends Component<CardsProps, never> {
     const cards = this.props.items;
     return (
       <div className={style.list}>
-        {cards.map((item: TCard, idx: number) => (
-          <Card item={item} key={item.id.toString() + idx} />
+        {cards.map((item: TCard) => (
+          <Card item={item} key={item.id.toString()} onClick={this.props.onCardClick} />
         ))}
       </div>
     );
