@@ -15,6 +15,7 @@
 .content {
   background-color: #fff;
   width: 80%;
+  max-width: 60rem;
   height: 70%;
   overflow-y: auto;
   
