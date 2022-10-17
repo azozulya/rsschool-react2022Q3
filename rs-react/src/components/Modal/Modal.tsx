@@ -37,9 +37,11 @@ export class Modal extends Component<TModalProps, TModalState> {
       budget,
       genres,
     } = this.state.movie;
+
     return (
-      <div className={style.modal}>
+      <div className={style.modal} onClick={this.props.onClose}>
         <div
+          data-id="modal"
           className={style.content}
           style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w780/${backdrop_path}` }}
         >

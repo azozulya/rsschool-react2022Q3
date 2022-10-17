@@ -54,6 +54,11 @@ class Main extends React.Component<TProps, TState> {
 
     const stateData: TCards | null = await getData(searchStr);
 
+    if (!stateData || !stateData.total_results) {
+      this.setState({ results: [], isLoading: false, title: 'Nothing find. Try again.' });
+      return;
+    }
+
     stateData &&
       this.setState((prevState) => ({
         ...prevState,
@@ -83,7 +88,11 @@ class Main extends React.Component<TProps, TState> {
     document.body.classList.add('noscroll');
   };
 
-  closeHandler = () => {
+  closeHandler = (event: React.MouseEvent<HTMLElement>) => {
+    const element = event.target as HTMLElement;
+
+    if (element.closest('[data-id=modal]') && element.ariaLabel !== 'Close') return;
+
     this.setState({ currentMovieID: null });
     document.body.classList.remove('noscroll');
     document.body.style.paddingRight = '0px';

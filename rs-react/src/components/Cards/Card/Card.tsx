@@ -19,7 +19,6 @@ class Card extends Component<CardProps, never> {
   }
 
   clickHandler = () => {
-    console.log(this.cardItem.id);
     this.props.onClick(this.cardItem.id);
   };
 

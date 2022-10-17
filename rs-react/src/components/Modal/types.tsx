@@ -2,7 +2,7 @@ import { TCard } from '../Cards/Card/types';
 
 type TModalProps = {
   id: number;
-  onClose: () => void;
+  onClose: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
 type TModalState = {
