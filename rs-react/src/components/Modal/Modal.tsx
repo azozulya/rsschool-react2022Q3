@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { TModalProps, TModalState } from './types';
 import style from './Modal.module.css';
 import { getMovieDetails } from '../../api/getMovieDetails';
-import { dateFormat, getYear } from '../../utils/utils';
+import { currencyFormat, dateFormat, getYear, runtimeFormat } from '../../utils/utils';
+import { API_IMG_URL } from '../../utils/constants';
 
 export class Modal extends Component<TModalProps, TModalState> {
   private id: number;
@@ -17,30 +18,73 @@ export class Modal extends Component<TModalProps, TModalState> {
 
   async componentDidMount(): Promise<void> {
     const movieData = await getMovieDetails(this.id);
-    console.log(movieData);
     this.setState({ movie: movieData });
   }
 
   render() {
     if (!this.state.movie) return '';
 
-    const { title, original_language, overview, poster_path, release_date, runtime, status } =
-      this.state.movie;
+    const {
+      title,
+      original_language,
+      overview,
+      poster_path,
+      release_date,
+      runtime,
+      status,
+      tagline,
+      backdrop_path,
+      budget,
+      genres,
+    } = this.state.movie;
     return (
       <div className={style.modal}>
-        <div className={style.content}>
-          <button onClick={this.props.onClose} aria-label="Close">
-            x
+        <div
+          className={style.content}
+          style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w780/${backdrop_path}` }}
+        >
+          <button onClick={this.props.onClose} aria-label="Close" className={style.close}>
+            +
           </button>
-          {poster_path}
-          <p>
-            {title}({getYear(release_date)})
-          </p>
-          <p>Status: {status}</p>
-          <p>Original language: {original_language}</p>
-          <p>Release date: {dateFormat(release_date)}</p>
-          <p>Overview: {overview}</p>
-          {runtime}
+          <div className={style.details}>
+            <img src={`${API_IMG_URL}${poster_path}`} />
+            <div className={style.params}>
+              <h2 className={style.title}>
+                {title}&nbsp;<span className={style.year}>({getYear(release_date)})</span>
+              </h2>
+              {tagline && <p className={style.tagline}>{tagline}</p>}
+
+              <div className={style.info}>
+                {runtimeFormat(runtime)}
+                {genres &&
+                  genres.map((genre) => (
+                    <span key={genre.id} className={style.genre}>
+                      {genre.name}
+                    </span>
+                  ))}
+              </div>
+              <div className={style.scrollable}>
+                <p>
+                  <span className={style.label}>Status:</span> {status}
+                </p>
+                <p>
+                  <span className={style.label}>Original language:</span> {original_language}
+                </p>
+                <p>
+                  <span className={style.label}>Release date:</span> {dateFormat(release_date)}
+                </p>
+                {budget > 0 && (
+                  <p>
+                    <span className={style.label}>Budget</span>
+                    {currencyFormat(budget)}
+                  </p>
+                )}
+                <p>
+                  <span className={style.label}>Overview:</span> {overview}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
