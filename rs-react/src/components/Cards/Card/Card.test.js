@@ -1,17 +1,21 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Card from './Card';
-import { cardsData } from '../../../assets/testData/testCards';
+import { testMovies } from '../../../assets/testData/testMovies';
 
 describe('Card', () => {
+  const card1 = testMovies.results[0];
+  const card2 = testMovies.results[1];
+
   test('render 1 card', () => {
-    render(<Card item={cardsData[0]} key={cardsData[0].id} />);
-    const cardElement = screen.getByText(cardsData[0].title);
+    render(<Card item={card1} key={card1.id} />);
+    const cardElement = screen.getByTestId('card');
     expect(cardElement).toBeInTheDocument();
   });
+
   test('render 2 cards', () => {
-    render(<Card item={cardsData[0]} key={cardsData[0].id} />);
-    render(<Card item={cardsData[1]} key={cardsData[1].id} />);
+    render(<Card item={card1} key={card1.id} />);
+    render(<Card item={card2} key={card2.id} />);
 
     const cards = screen.getAllByTestId('card');
     expect(cards.length).toEqual(2);
