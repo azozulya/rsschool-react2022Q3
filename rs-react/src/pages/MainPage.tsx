@@ -6,6 +6,7 @@ import { TCard, TCards } from '../components/Cards/Card/types';
 import { SearchBar } from '../components/SearchBar';
 import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator';
 import Modal from '../components/Modal/Modal';
+import { SEARCH_STRING_LS } from '../utils/constants';
 
 type TState = {
   title: string;
@@ -36,7 +37,7 @@ class Main extends React.Component<TProps, TState> {
     };
   }
 
-  async componentDidMount(): Promise<void> {
+  getPopular = async () => {
     const stateData: TCards | null = await getPopular();
 
     stateData &&
@@ -46,9 +47,9 @@ class Main extends React.Component<TProps, TState> {
         isLoading: false,
         title: 'Popular movies',
       }));
-  }
+  };
 
-  searchHandler = async (searchStr: string) => {
+  getMovies = async (searchStr: string) => {
     this.setState({ isLoading: true });
 
     const stateData: TCards | null = await getData(searchStr);
@@ -62,9 +63,22 @@ class Main extends React.Component<TProps, TState> {
       }));
   };
 
+  async componentDidMount() {
+    const searchString = localStorage.getItem(SEARCH_STRING_LS) || '';
+
+    if (!searchString) {
+      return await this.getPopular();
+    }
+
+    await this.getMovies(searchString);
+  }
+
+  searchHandler = async (searchStr: string) => {
+    await this.getMovies(searchStr);
+  };
+
   clickHandler = (id: number) => {
     this.setState({ currentMovieID: id });
-    console.log('paddingRight: ', this.paddingRight);
     document.body.style.paddingRight = `${window.innerWidth - document.body.offsetWidth}px`;
     document.body.classList.add('noscroll');
   };

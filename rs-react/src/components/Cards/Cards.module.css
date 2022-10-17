@@ -1,6 +1,6 @@
 .list {
     display: grid;
-    gap: 1.5rem;
+    gap: 2rem;
     margin-bottom: 3rem;
 }
 
@@ -30,27 +30,38 @@
 }
 
 .card {
-    background-color: rgb(245, 245, 220);
+  background-color: rgb(245, 245, 220);
     border-radius: .5rem;
     box-shadow: 0 0 0.5rem 0.1rem rgb(141 141 131 / 76%);
+  cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    transition: 100ms ease-in-out;
+  }
+  
+  .card:hover {
+    box-shadow: 0 0 0.7rem 0.3rem rgba(121, 121, 113, 0.9);
+    transform: scale(1.1);
 }
 
 .image {
-    width: 100%;
+  width: 100%;
     min-height: 128px;
     display: block;
     border-top-left-radius: .5rem;
     border-top-right-radius: .5rem;
 }
 
-.content {
-    padding: .5rem;
+.title {
+  font-size: .9rem;
+  padding: .5rem;
+  font-weight: bold;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
 }
 
-.title {
-    font-size: .9rem;
-    margin-top: 0;
-}
+
 
 .date {
     font-size: .8rem;
