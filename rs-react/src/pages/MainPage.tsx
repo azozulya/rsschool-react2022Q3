@@ -3,9 +3,11 @@ import { getData } from '../api/getData';
 import { getPopular } from '../api/getPopular';
 import { Cards } from '../components/Cards';
 import { TCard, TCards } from '../components/Cards/Card/types';
+import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator';
 import { SearchBar } from '../components/SearchBar';
 
 type TState = {
+  title: string;
   page: number;
   total_pages: number;
   total_results: number;
@@ -21,6 +23,7 @@ class Main extends React.Component<TProps, TState> {
   constructor(props: TProps) {
     super(props);
     this.state = {
+      title: '',
       page: 1,
       results: [],
       total_pages: 0,
@@ -30,29 +33,39 @@ class Main extends React.Component<TProps, TState> {
   }
 
   async componentDidMount(): Promise<void> {
-    console.log('componentDidMount');
     const stateData: TCards | null = await getPopular();
-    stateData && this.setState((prevState) => ({ ...prevState, ...stateData, isLoading: false }));
+
+    stateData &&
+      this.setState((prevState) => ({
+        ...prevState,
+        ...stateData,
+        isLoading: false,
+        title: 'Popular movies',
+      }));
   }
 
   searchHandler = async (searchStr: string) => {
-    console.log('Main page, search: ', searchStr);
+    this.setState({ isLoading: true });
+
     const stateData: TCards | null = await getData(searchStr);
-    console.log('stateData: ', stateData);
-    stateData && this.setState((prevState) => ({ ...prevState, ...stateData, isLoading: false }));
+
+    stateData &&
+      this.setState((prevState) => ({
+        ...prevState,
+        ...stateData,
+        isLoading: false,
+        title: `Find ${stateData.total_results} movies. Page ${stateData.page} from ${stateData.total_pages}`,
+      }));
   };
 
   render() {
     return (
       <>
-        <h2>Main page</h2>
         <SearchBar onSearch={this.searchHandler} />
 
-        {this.state.isLoading ? (
-          <div className="loading">Loading...</div>
-        ) : (
-          <Cards items={this.state.results} />
-        )}
+        <h2>{this.state.title}</h2>
+
+        {this.state.isLoading ? <LoadingIndicator /> : <Cards items={this.state.results} />}
       </>
     );
   }
