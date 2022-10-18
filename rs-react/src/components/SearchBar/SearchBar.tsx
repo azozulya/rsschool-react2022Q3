@@ -37,6 +37,7 @@ class SearchBar extends Component<TSearchProps, TSearch> {
     return (
       <form onSubmit={this.submitHandler} className={style.form} data-testid="search-form">
         <input
+          name="searchString"
           type="text"
           value={this.state.searchStr}
           placeholder="Search"

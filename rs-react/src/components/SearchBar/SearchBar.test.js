@@ -1,8 +1,7 @@
 import React from 'react';
 import { fireEvent, createEvent, render, screen } from '@testing-library/react';
 import { SearchBar } from './SearchBar';
-import { SEARCH_STRING_LS } from '../../utils/constants'
-import userEvent from '@testing-library/user-event';
+import { SEARCH_STRING_LS } from '../../utils/constants';
 
 const localStorageMock = () => {
   let storage = {};
@@ -41,20 +40,12 @@ describe('SearchBar', () => {
   });
 
   it('should prevent default action on submit', () => {
-    //const event = { preventDefault: () => {} };
-    //jest.spyOn(event, 'preventDefault');
-
     render(<SearchBar onSearch={() => jest.fn()} />);
     const form = screen.getByTestId('search-form');
-    //const submitEvent = createEvent.submit(form);
+    const submitEvent = createEvent.submit(form);
 
-    //fireEvent(form, submitEvent);
+    fireEvent(form, submitEvent);
 
-    //expect(submitEvent.defaultPrevented).toBeTruthy();
-
-    userEvent.click(form);
-    // screen.debug();
-
-    //expect(event.preventDefault).toBeCalled();
+    expect(submitEvent.defaultPrevented).toBeTruthy();
   });
 });

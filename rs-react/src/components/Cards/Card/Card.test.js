@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Card from './Card';
 import { testMovies } from '../../../assets/testData/testMovies';
+import userEvent from '@testing-library/user-event';
 
 describe('Card', () => {
   const card1 = testMovies.results[0];
@@ -19,5 +20,15 @@ describe('Card', () => {
 
     const cards = screen.getAllByTestId('card');
     expect(cards.length).toEqual(2);
+  });
+
+  test('should click on card', () => {
+    const clickHandler = jest.fn();
+    render(<Card item={card1} key={card1.id} onClick={clickHandler} />);
+
+    const card = screen.getByTestId('card');
+    userEvent.click(card);
+
+    expect(clickHandler).toBeCalledTimes(1);
   });
 });

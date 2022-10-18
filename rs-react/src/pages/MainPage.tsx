@@ -21,7 +21,6 @@ type TState = {
 type TProps = Record<string, never>;
 
 class Main extends React.Component<TProps, TState> {
-  private paddingRight = '0px';
   state: TState;
 
   constructor(props: TProps) {
@@ -74,7 +73,6 @@ class Main extends React.Component<TProps, TState> {
     if (!searchString) {
       return await this.getPopular();
     }
-
     await this.getMovies(searchString);
   }
 
