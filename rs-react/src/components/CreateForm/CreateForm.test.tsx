@@ -26,6 +26,7 @@ describe('Form', () => {
   const submitHandler = jest.fn();
 
   beforeEach(() => {
+    URL.createObjectURL = jest.fn(() => testImg);
     render(<CreateForm onSubmit={submitHandler} />);
 
     formElement = screen.getByRole('form', { name: /user form/i });
@@ -65,11 +66,8 @@ describe('Form', () => {
   });
 
   test('show avatar preview', async () => {
-    Object.defineProperty(URL, 'createObjectURL', {
-      value: jest.fn(() => testImg),
-    });
-
     userEvent.upload(fileUploadElement, file);
+    expect(URL.createObjectURL(file)).toBe(testImg);
 
     const preview = await screen.findByTestId(/avatarPreview/i);
     expect(preview).toBeInTheDocument();
@@ -88,8 +86,6 @@ describe('Form', () => {
   });
 
   test('should show success message after submit', async () => {
-    jest.spyOn(URL, 'createObjectURL').mockReturnValue(testImg);
-
     userEvent.paste(nameInput, user.name);
     userEvent.paste(dateInput, user.birthday);
     userEvent.selectOptions(selectElement, user.country);
