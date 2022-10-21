@@ -20,11 +20,4 @@ type TCard = {
   genres: Array<{ id: number; name: string }>;
 };
 
-type TCards = {
-  page: number;
-  results: TCard[];
-  total_pages: number;
-  total_results: number;
-};
-
-export type { TCard, TCards };
+export type { TCard };

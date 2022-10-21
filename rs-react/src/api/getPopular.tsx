@@ -1,4 +1,4 @@
-import { TCards } from '../components/Cards/Card/types';
+import { TCards } from '../components/Cards/types';
 import { API_POPULAR_URL } from '../utils/constants';
 
 async function getPopular(): Promise<TCards | null> {
