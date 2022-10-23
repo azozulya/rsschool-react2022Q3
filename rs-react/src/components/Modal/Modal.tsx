@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { TModalProps, TModalState } from './types';
-import style from './Modal.module.css';
 import { getMovieDetails } from '../../api/getMovieDetails';
 import { currencyFormat, dateFormat, getYear, runtimeFormat } from '../../utils/utils';
 import { API_IMG_URL } from '../../utils/constants';
+import style from './Modal.module.css';
 
 export class Modal extends Component<TModalProps, TModalState> {
   private id: number;

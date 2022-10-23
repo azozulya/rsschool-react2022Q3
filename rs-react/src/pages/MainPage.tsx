@@ -1,12 +1,12 @@
 import React from 'react';
+import Modal from '../components/Modal/Modal';
+import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator';
 import { getData } from '../api/getData';
 import { getPopular } from '../api/getPopular';
 import { Cards } from '../components/Cards';
 import { TCard } from '../components/Cards/Card/types';
 import { TCards } from '../components/Cards/types';
 import { SearchBar } from '../components/SearchBar';
-import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator';
-import Modal from '../components/Modal/Modal';
 import { SEARCH_STRING_LS } from '../utils/constants';
 
 type TState = {
