@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 import Card from './Card';
-import { testMovies } from '../../../assets/testData/testMovies';
+import Main from '../../../pages/MainPage';
 import userEvent from '@testing-library/user-event';
+import { render, screen, act } from '@testing-library/react';
+import { testMovies } from '../../../assets/testData/testMovies';
 
 describe('Card', () => {
   const card1 = testMovies.results[0];
@@ -30,5 +31,31 @@ describe('Card', () => {
     userEvent.click(card);
 
     expect(clickHandler).toBeCalledTimes(1);
+  });
+
+  test('should open popup', async () => {
+    render(<Main />);
+
+    const cards = await screen.findAllByTestId('card');
+    act(() => userEvent.click(cards[0]));
+
+    const modal = await screen.findByTestId('modal');
+    expect(modal).toBeInTheDocument();
+    expect(modal).toBeVisible();
+
+    userEvent.click(screen.getByRole('button', { name: /close/i }));
+    expect(screen.queryByTestId('modal')).toBeNull();
+  });
+
+  test('should close popup after close button click', async () => {
+    render(<Main />);
+
+    const cards = await screen.findAllByTestId('card');
+    act(() => userEvent.click(cards[0]));
+
+    expect(await screen.findByTestId('modal')).toBeInTheDocument();
+
+    userEvent.click(screen.getByRole('button', { name: /close/i }));
+    expect(screen.queryByTestId('modal')).toBeNull();
   });
 });
