@@ -81,7 +81,7 @@ const Main: React.FC = function () {
     const searchString = localStorage.getItem(SEARCH_STRING_LS) || '';
 
     !searchString ? getPopularMovies() : getMovies(searchString);
-  }, []);
+  }, [getMovies]);
 
   const searchHandler = async (searchStr: string) => {
     getMovies(searchStr);
