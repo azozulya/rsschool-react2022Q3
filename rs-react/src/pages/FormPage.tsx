@@ -7,7 +7,7 @@ export class FormPage extends Component {
     users: [],
   };
 
-  addUserHandler = (user: CreateFormTypes.TUserCard) => {
+  onSubmit = (user: CreateFormTypes.TUserCard) => {
     this.setState((prevState: { users: CreateFormTypes.TUserCard[] }) => {
       return { users: [...prevState.users, { ...user, id: Date.now() }] };
     });
@@ -16,7 +16,7 @@ export class FormPage extends Component {
   render() {
     return (
       <>
-        <CreateForm onSubmit={this.addUserHandler} />
+        <CreateForm onSubmit={this.onSubmit} />
         <UsersList users={this.state.users} />
       </>
     );
