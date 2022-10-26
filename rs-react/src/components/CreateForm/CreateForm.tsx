@@ -1,190 +1,206 @@
-import React, { Component, createRef, RefObject } from 'react';
-import SelectCountry from './elements/SelectCountry';
-import TextInput from './elements/TextInput';
-import CheckboxInput from './elements/CheckboxInput';
-import { EGender, TCreateFormProps, TCreateFormState, TUserCard } from './CreateForm.types';
+import React, { useEffect } from 'react';
+import { EGender, TCreateFormValues, TCreateFormProps, TUserCard } from './CreateForm.types';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { COUNTRIES } from '../../utils/constants';
 import style from './CreateForm.module.css';
 import FileInput from './elements/FileInput';
-import RadioGroup from './elements/RadioGroup';
 
-export class CreateForm extends Component<TCreateFormProps, TCreateFormState> {
-  private formRef: RefObject<HTMLFormElement>;
-  private genderArray: string[] = Object.values(EGender);
-  private defaultState: TCreateFormState = {
-    showError: false,
-    showSuccessMessage: false,
-    canSubmit: false,
-    user: {
-      username: '',
-      birthday: '',
-      gender: undefined,
-      avatar: '',
-      agree: false,
-      country: '',
-    },
-  };
-  private successRef: React.RefObject<HTMLDivElement>;
-  private onSubmitFormHandler: (user: TUserCard) => void;
+const initialValues: TCreateFormValues = {
+  username: '',
+  birthday: '',
+  gender: undefined,
+  avatar: '',
+  agree: false,
+  country: '',
+};
 
-  constructor(props: TCreateFormProps) {
-    super(props);
+export function CreateForm(props: TCreateFormProps) {
+  const {
+    watch,
+    register,
+    handleSubmit,
+    formState: { isDirty, errors },
+  } = useForm<TCreateFormValues>({
+    defaultValues: initialValues,
+  });
+  const genderArray = Object.values(EGender);
 
-    this.formRef = createRef();
-    this.successRef = createRef();
-    this.state = { ...this.defaultState };
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => console.log(value, name, type));
+    const subscriptionFile = watch('avatar');
+    console.log(subscriptionFile);
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
-    this.onSubmitFormHandler = this.props.onSubmit;
-  }
+  // const onSubmit: SubmitHandler<TCreateForm> = (user: TUserCard) => {
+  //   console.log('submit', user);
+  // };
 
-  checkFormFilled = () => {
-    const { username, birthday, country, agree, gender, avatar } = this.state.user;
+  // const checkFormFilled = () => {
+  //   const { username, birthday, country, agree, gender, avatar } = this.state.user;
 
-    return (
-      agree &&
-      Boolean(username) &&
-      Boolean(birthday) &&
-      Boolean(country) &&
-      Boolean(gender) &&
-      Boolean(avatar)
-    );
-  };
+  //   return (
+  //     agree &&
+  //     Boolean(username) &&
+  //     Boolean(birthday) &&
+  //     Boolean(country) &&
+  //     Boolean(gender) &&
+  //     Boolean(avatar)
+  //   );
+  // };
 
-  submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const onSubmit: SubmitHandler<TCreateFormValues> = (user: TUserCard) => {
+    //event.preventDefault();
+    console.log(user);
+    //const isFormFilled = checkForm();
 
-    const isFormFilled = this.checkFormFilled();
+    //if (!isFormFilled) {
+    //this.setState({ canSubmit: false, showError: true });
+    return;
+    //}
 
-    if (!isFormFilled) {
-      this.setState({ canSubmit: false, showError: true });
-      return;
-    }
-
-    this.setState({ canSubmit: false, showSuccessMessage: true });
+    //this.setState({ canSubmit: false, showSuccessMessage: true });
 
     setTimeout(() => {
-      this.onSubmitFormHandler(this.state.user);
-      this.formRef.current?.reset();
-      this.setState({ ...this.defaultState });
+      //handleSubmit(props.onSubmit());
+      // this.formRef.current?.reset();
+      // this.setState({ ...this.defaultState });
     }, 1000);
   };
 
-  saveParam = (key: string, value: string | boolean) => {
-    this.setState(
-      (prevState) => ({ ...prevState, user: { ...prevState.user, [key]: value } }),
-      this.checkForm
-    );
-  };
+  // const saveParam = (key: string, value: string | boolean) => {
+  //   setState(
+  //     (prevState) => ({ ...prevState, user: { ...prevState.user, [key]: value } }),
+  //     this.checkForm
+  //   );
+  // };
 
-  checkForm = () => {
-    const { username, birthday, country, agree, gender, avatar } = this.state.user;
+  // const checkForm = () => {
+  //   const { username, birthday, country, agree, gender, avatar } = this.state.user;
 
-    const isFormFilled = this.checkFormFilled();
+  //   const isFormFilled = this.checkFormFilled();
 
-    if (isFormFilled) {
-      this.setState({
-        canSubmit: true,
-        showError: false,
-      });
-      return;
-    }
+  //   if (isFormFilled) {
+  //     this.setState({
+  //       canSubmit: true,
+  //       showError: false,
+  //     });
+  //     return;
+  //   }
 
-    this.setState({
-      canSubmit:
-        (Boolean(username) ||
-          Boolean(birthday) ||
-          Boolean(country) ||
-          Boolean(avatar) ||
-          Boolean(gender) ||
-          agree) &&
-        !this.state.showError,
-    });
-  };
+  //   this.setState({
+  //     canSubmit:
+  //       (Boolean(username) ||
+  //         Boolean(birthday) ||
+  //         Boolean(country) ||
+  //         Boolean(avatar) ||
+  //         Boolean(gender) ||
+  //         agree) &&
+  //       !this.state.showError,
+  //   });
+  // };
 
-  render() {
-    return (
-      <>
-        <form
-          aria-label="Create user form"
-          className={style.form}
-          onSubmit={this.submitHandler}
-          ref={this.formRef}
-        >
-          <fieldset className={style.formWrapper}>
-            <legend className={style.formTitle}>Create user profile</legend>
+  return (
+    <>
+      <form aria-label="Create user form" className={style.form} onSubmit={handleSubmit(onSubmit)}>
+        <fieldset className={style.formWrapper}>
+          <legend className={style.formTitle}>Create user profile</legend>
 
-            <div className={style.formContent}>
-              <div className={style.fileUploadWrapper}>
-                <FileInput
-                  inpName="avatar"
-                  setValue={this.saveParam}
-                  isShowError={this.state.showError}
-                />
-              </div>
-
-              <div>
-                <TextInput
-                  ariaLabel="User name"
-                  inpName="username"
-                  type="text"
-                  label="Name"
-                  setValue={this.saveParam}
-                  isShowError={this.state.showError}
-                />
-
-                <div className={style.twoColumn}>
-                  <TextInput
-                    ariaLabel="User birthday"
-                    inpName="birthday"
-                    type="date"
-                    label="Date of birth"
-                    setValue={this.saveParam}
-                    isShowError={this.state.showError}
-                  />
-
-                  <SelectCountry
-                    title="Country"
-                    selectName="country"
-                    setValue={this.saveParam}
-                    isShowError={this.state.showError}
-                  />
-                </div>
-
-                <RadioGroup
-                  name="gender"
-                  label="Gender"
-                  values={this.genderArray}
-                  setValue={this.saveParam}
-                  isShowError={this.state.showError}
-                />
-              </div>
-            </div>
-
-            <CheckboxInput
-              title="I consent to my personal data"
-              inpName="agree"
-              setValue={this.saveParam}
-              isShowError={this.state.showError}
+          <div className={style.formContent}>
+            <FileInput
+              label="avatar"
+              register={register}
+              params={{ required: 'Choose file for avatar' }}
+              error={errors.avatar}
+              currentValue={watch('avatar')}
             />
 
-            <input
-              name="submitBtn"
-              type="submit"
-              disabled={!this.state.canSubmit}
-              className={style.submit}
-              value="Submit"
-            />
-          </fieldset>
-        </form>
-        {this.state.showSuccessMessage && (
-          <div className={style.success} ref={this.successRef} data-testid="successMessage">
             <div>
-              <p>User was added!</p>
+              <div className={style.formElement}>
+                <label className={style.label}>
+                  Name:
+                  <input
+                    {...register('username', { required: 'This is a required field' })}
+                    type="text"
+                    autoComplete="off"
+                    className={style.inp}
+                  />
+                </label>
+                {errors.username && (
+                  <span role="alert" className={`${style.error} ${style.errorAbsolute}`}>
+                    {errors.username.message}
+                  </span>
+                )}
+              </div>
+
+              <div className={style.twoColumn}>
+                <input {...register('birthday')} type="date" />
+
+                <select {...register('country')}>
+                  {COUNTRIES.map((country) => (
+                    <option key={self.crypto.randomUUID()} value={country}>
+                      {country}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className={style.formElement}>
+                <span className={style.label}>Gender</span>
+
+                <ul className={style.radioList}>
+                  {genderArray.map((item) => {
+                    return (
+                      <li key={self.crypto.randomUUID()}>
+                        <label className={style.radioLabel}>
+                          <input
+                            {...register('gender', { required: 'Choose your gender' })}
+                            type="radio"
+                            value={item}
+                          />
+                          {item}
+                        </label>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                {errors.gender && (
+                  <span role="alert" className={`${style.error} ${style.errorAbsolute}`}>
+                    {errors.gender.message}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
-        )}
-      </>
-    );
-  }
+
+          <div className={style.formElement}>
+            <label className={style.formCheckbox}>
+              <input
+                {...register('agree', { required: 'This is a required field' })}
+                type="checkbox"
+              />
+              I consent to my personal data
+            </label>
+            {errors.agree && (
+              <span role="alert" className={`${style.error} ${style.errorAbsolute}`}>
+                {errors.agree.message}
+              </span>
+            )}
+          </div>
+          {isDirty ? 1 : 0}
+          <input type="submit" className={style.submit} value="Submit" disabled={!isDirty} />
+        </fieldset>
+      </form>
+      {/* {this.state.showSuccessMessage && (
+        <div className={style.success} ref={this.successRef} data-testid="successMessage">
+          <div>
+            <p>User was added!</p>
+          </div>
+        </div>
+      )} */}
+    </>
+  );
 }
 
 export default CreateForm;

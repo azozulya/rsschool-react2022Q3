@@ -1,75 +1,49 @@
-import React, { Component, createRef, RefObject } from 'react';
+import React from 'react';
+import { FieldError, Path, UseFormRegister } from 'react-hook-form';
+import { IMG_EMPTY } from '../../../utils/constants';
+import { TCreateFormValues } from '../CreateForm.types';
 import style from '../CreateForm.module.css';
 
-type TProps = {
-  inpName: string;
-  isShowError: boolean;
-  setValue: (key: string, value: string) => void;
+type TFileInputProps = {
+  label: Path<TCreateFormValues>;
+  register: UseFormRegister<TCreateFormValues>;
+  params: Record<string, string>;
+  error: FieldError | undefined;
+  currentValue: FileList | string | null;
 };
 
-const IMG_EMPTY = 'No image';
+export const FileInput = ({ label, register, params, error, currentValue }: TFileInputProps) => {
+  const avatarImgUrl = currentValue?.length && URL.createObjectURL((currentValue as FileList)?.[0]);
 
-export class FileInput extends Component<TProps, never> {
-  private avatarRef: RefObject<HTMLInputElement>;
-
-  constructor(props: TProps) {
-    super(props);
-    this.avatarRef = createRef<HTMLInputElement>();
-  }
-
-  getAvatarImgUrl = () => {
-    const avatarImg =
-      this.avatarRef &&
-      this.avatarRef.current &&
-      this.avatarRef.current.files &&
-      this.avatarRef.current.files[0];
-    return avatarImg && URL.createObjectURL(avatarImg);
-  };
-
-  changeHandler = () => {
-    const avatarImgUrl = this.getAvatarImgUrl();
-
-    if (!avatarImgUrl) return;
-
-    this.props.setValue(this.props.inpName, avatarImgUrl);
-  };
-
-  render() {
-    const isShowError = this.props.isShowError && !this.avatarRef.current?.files?.length;
-    const avatarImgUrl = this.getAvatarImgUrl();
-
-    return (
-      <>
-        <div className={style.filePreview}>
-          {avatarImgUrl ? (
-            <img src={avatarImgUrl} className={style.avatarPreview} data-testid="avatarPreview" />
-          ) : (
-            IMG_EMPTY
-          )}
-        </div>
-
-        <label htmlFor="avatar" className={style.file}>
-          <input
-            type="file"
-            aria-label="Choose avatar"
-            accept=".jpg, .jpeg, .png"
-            className={style.fileInp}
-            name={this.props.inpName}
-            onChange={this.changeHandler}
-            ref={this.avatarRef}
-          />
-
-          <button className={style.fileCustom}>Choose file</button>
-        </label>
-
-        {isShowError && (
-          <span role="alert" className={style.error}>
-            Choose file for avatar
-          </span>
+  return (
+    <div className={style.fileUploadWrapper}>
+      <div className={style.filePreview}>
+        {avatarImgUrl ? (
+          <img src={avatarImgUrl} className={style.avatarPreview} data-testid="avatarPreview" />
+        ) : (
+          IMG_EMPTY
         )}
-      </>
-    );
-  }
-}
+      </div>
+
+      <label htmlFor="avatar" className={style.file}>
+        <input
+          type="file"
+          aria-label="Choose avatar"
+          accept=".jpg, .jpeg, .png"
+          className={style.fileInp}
+          {...register(label, { ...params })}
+        />
+
+        <button className={style.fileCustom}>Choose file</button>
+      </label>
+
+      {error && (
+        <span role="alert" className={style.error}>
+          {error.message}
+        </span>
+      )}
+    </div>
+  );
+};
 
 export default FileInput;

@@ -1,4 +1,4 @@
-type TUserCard = {
+interface TCreateFormValues {
   id?: number;
   username: string;
   gender: string | undefined;
@@ -6,6 +6,12 @@ type TUserCard = {
   agree: boolean;
   avatar: string;
   country: string;
+}
+
+type TUserCard = TCreateFormValues;
+
+type TCreateFormProps = {
+  onSubmit: (user: TUserCard) => void;
 };
 
 export enum EGender {
@@ -14,15 +20,4 @@ export enum EGender {
   OTHER = 'Other',
 }
 
-type TCreateFormState = {
-  canSubmit: boolean;
-  showError: boolean;
-  showSuccessMessage: boolean;
-  user: TUserCard;
-};
-
-type TCreateFormProps = {
-  onSubmit: (user: TUserCard) => void;
-};
-
-export type { TCreateFormState, TCreateFormProps, TUserCard };
+export type { TCreateFormValues, TCreateFormProps, TUserCard };

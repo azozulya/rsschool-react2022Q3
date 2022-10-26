@@ -73,6 +73,7 @@
 
 .fileUploadWrapper {
   position: relative;
+  width: min-content;
 }
 
 .filePreview {

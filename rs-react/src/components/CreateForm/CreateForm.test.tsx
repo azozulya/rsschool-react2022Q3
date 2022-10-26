@@ -27,6 +27,8 @@ describe('Form', () => {
 
   beforeEach(() => {
     URL.createObjectURL = jest.fn(() => testImg);
+    self.crypto.randomUUID = jest.fn(() => '23');
+
     render(<CreateForm onSubmit={submitHandler} />);
 
     formElement = screen.getByRole('form', { name: /user form/i });
@@ -40,6 +42,7 @@ describe('Form', () => {
   });
 
   test('renders form', () => {
+    screen.debug();
     expect(formElement).toBeInTheDocument();
   });
 
