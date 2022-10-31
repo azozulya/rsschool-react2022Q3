@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
-import { EGender, TCreateFormValues, TCreateFormProps, TUserCard } from './CreateForm.types';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { COUNTRIES } from '../../utils/constants';
-import style from './CreateForm.module.css';
+import React, { useEffect, useState } from 'react';
 import FileInput from './elements/FileInput';
+import TextInput from './elements/TextInput';
+import SelectCountry from './elements/SelectCountry';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { EGender, TCreateFormValues, TCreateFormProps, TUserCard } from './CreateForm.types';
+import style from './CreateForm.module.css';
 
 const initialValues: TCreateFormValues = {
   username: '',
@@ -15,134 +16,75 @@ const initialValues: TCreateFormValues = {
 };
 
 export function CreateForm(props: TCreateFormProps) {
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const {
-    watch,
     register,
     handleSubmit,
-    formState: { isDirty, errors },
+    reset,
+    setValue,
+    formState: { isDirty, dirtyFields, submitCount, isSubmitSuccessful, errors },
   } = useForm<TCreateFormValues>({
-    defaultValues: initialValues,
+    defaultValues: { ...initialValues },
+    mode: 'onSubmit',
   });
   const genderArray = Object.values(EGender);
 
-  useEffect(() => {
-    const subscription = watch((value, { name, type }) => console.log(value, name, type));
-    const subscriptionFile = watch('avatar');
-    console.log(subscriptionFile);
-    return () => subscription.unsubscribe();
-  }, [watch]);
-
-  // const onSubmit: SubmitHandler<TCreateForm> = (user: TUserCard) => {
-  //   console.log('submit', user);
-  // };
-
-  // const checkFormFilled = () => {
-  //   const { username, birthday, country, agree, gender, avatar } = this.state.user;
-
-  //   return (
-  //     agree &&
-  //     Boolean(username) &&
-  //     Boolean(birthday) &&
-  //     Boolean(country) &&
-  //     Boolean(gender) &&
-  //     Boolean(avatar)
-  //   );
-  // };
-
-  const onSubmit: SubmitHandler<TCreateFormValues> = (user: TUserCard) => {
-    //event.preventDefault();
-    console.log(user);
-    //const isFormFilled = checkForm();
-
-    //if (!isFormFilled) {
-    //this.setState({ canSubmit: false, showError: true });
-    return;
-    //}
-
-    //this.setState({ canSubmit: false, showSuccessMessage: true });
-
-    setTimeout(() => {
-      //handleSubmit(props.onSubmit());
-      // this.formRef.current?.reset();
-      // this.setState({ ...this.defaultState });
-    }, 1000);
+  const onSubmitHandler: SubmitHandler<TCreateFormValues> = (user: TUserCard) => {
+    props.onSubmit(user);
+    setShowSuccessMessage(true);
+    setTimeout(() => setShowSuccessMessage(false), 1500);
   };
 
-  // const saveParam = (key: string, value: string | boolean) => {
-  //   setState(
-  //     (prevState) => ({ ...prevState, user: { ...prevState.user, [key]: value } }),
-  //     this.checkForm
-  //   );
-  // };
-
-  // const checkForm = () => {
-  //   const { username, birthday, country, agree, gender, avatar } = this.state.user;
-
-  //   const isFormFilled = this.checkFormFilled();
-
-  //   if (isFormFilled) {
-  //     this.setState({
-  //       canSubmit: true,
-  //       showError: false,
-  //     });
-  //     return;
-  //   }
-
-  //   this.setState({
-  //     canSubmit:
-  //       (Boolean(username) ||
-  //         Boolean(birthday) ||
-  //         Boolean(country) ||
-  //         Boolean(avatar) ||
-  //         Boolean(gender) ||
-  //         agree) &&
-  //       !this.state.showError,
-  //   });
-  // };
+  useEffect(() => {
+    reset({ ...initialValues });
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <>
-      <form aria-label="Create user form" className={style.form} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        aria-label="Create user form"
+        className={style.form}
+        onSubmit={handleSubmit(onSubmitHandler)}
+      >
         <fieldset className={style.formWrapper}>
           <legend className={style.formTitle}>Create user profile</legend>
-
           <div className={style.formContent}>
             <FileInput
-              label="avatar"
+              name="avatar"
+              setValue={setValue}
+              isSubmitSuccessful={isSubmitSuccessful}
               register={register}
               params={{ required: 'Choose file for avatar' }}
               error={errors.avatar}
-              currentValue={watch('avatar')}
             />
 
             <div>
-              <div className={style.formElement}>
-                <label className={style.label}>
-                  Name:
-                  <input
-                    {...register('username', { required: 'This is a required field' })}
-                    type="text"
-                    autoComplete="off"
-                    className={style.inp}
-                  />
-                </label>
-                {errors.username && (
-                  <span role="alert" className={`${style.error} ${style.errorAbsolute}`}>
-                    {errors.username.message}
-                  </span>
-                )}
-              </div>
+              <TextInput
+                type="text"
+                name="username"
+                label="User name"
+                register={register}
+                params={{ required: 'This is a required field' }}
+                error={errors.username}
+              />
 
               <div className={style.twoColumn}>
-                <input {...register('birthday')} type="date" />
+                <TextInput
+                  type="date"
+                  name="birthday"
+                  label="Date of birth:"
+                  register={register}
+                  params={{ required: 'This is a required field' }}
+                  error={errors.birthday}
+                />
 
-                <select {...register('country')}>
-                  {COUNTRIES.map((country) => (
-                    <option key={self.crypto.randomUUID()} value={country}>
-                      {country}
-                    </option>
-                  ))}
-                </select>
+                <SelectCountry
+                  name="country"
+                  label="Country"
+                  register={register}
+                  params={{ required: 'Choose country' }}
+                  error={errors.country}
+                />
               </div>
 
               <div className={style.formElement}>
@@ -173,12 +115,11 @@ export function CreateForm(props: TCreateFormProps) {
               </div>
             </div>
           </div>
-
           <div className={style.formElement}>
             <label className={style.formCheckbox}>
               <input
-                {...register('agree', { required: 'This is a required field' })}
                 type="checkbox"
+                {...register('agree', { required: 'This is a required field' })}
               />
               I consent to my personal data
             </label>
@@ -188,17 +129,26 @@ export function CreateForm(props: TCreateFormProps) {
               </span>
             )}
           </div>
-          {isDirty ? 1 : 0}
-          <input type="submit" className={style.submit} value="Submit" disabled={!isDirty} />
+
+          <input
+            type="submit"
+            className={style.submit}
+            disabled={
+              !isDirty ||
+              (Object.keys(dirtyFields).length < Object.keys(initialValues).length &&
+                submitCount > 0)
+            }
+          />
         </fieldset>
       </form>
-      {/* {this.state.showSuccessMessage && (
-        <div className={style.success} ref={this.successRef} data-testid="successMessage">
+      {isSubmitSuccessful ? 'true' : 'false'}
+      {showSuccessMessage && (
+        <div className={style.success} data-testid="successMessage">
           <div>
             <p>User was added!</p>
           </div>
         </div>
-      )} */}
+      )}
     </>
   );
 }

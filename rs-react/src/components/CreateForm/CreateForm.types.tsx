@@ -4,7 +4,7 @@ interface TCreateFormValues {
   gender: string | undefined;
   birthday: string;
   agree: boolean;
-  avatar: string;
+  avatar?: string;
   country: string;
 }
 

@@ -37,6 +37,11 @@ describe('App', () => {
 
   test('renders form page', () => {
     window.history.pushState('form', 'form', '/form');
+    Object.defineProperty(global.self, 'crypto', {
+      value: {
+        randomUUID: () => Date.now(),
+      },
+    });
     render(
       <BrowserRouter>
         <App />

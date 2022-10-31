@@ -1,57 +1,41 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { FieldError, UseFormRegister } from 'react-hook-form';
+import { Path } from 'react-hook-form/dist/types/path';
+import { TCreateFormValues } from '../CreateForm.types';
 import { COUNTRIES } from '../../../utils/constants';
 import style from '../CreateForm.module.css';
 
-type TProps = {
-  title: string;
-  selectName: string;
-  setValue: (key: string, value: string) => void;
-  isShowError: boolean;
+type TSelectCountryProps = {
+  name: Path<TCreateFormValues>;
+  label: string;
+  register: UseFormRegister<TCreateFormValues>;
+  params: Record<string, string>;
+  error: FieldError | undefined;
 };
 
-export class SelectCountry extends Component<TProps, never> {
-  private selectRef: React.RefObject<HTMLSelectElement>;
+const countries = COUNTRIES.map((country, idx) => (
+  <option key={country + idx} value={country}>
+    {country}
+  </option>
+));
 
-  constructor(props: TProps) {
-    super(props);
-    this.selectRef = React.createRef();
-  }
-
-  changeHandler = () => {
-    this.props.setValue(this.props.selectName, this.selectRef.current?.value ?? '');
-  };
-
-  render() {
-    const isShowError = this.props.isShowError && !this.selectRef.current?.value;
-
-    const countries = COUNTRIES.map((country, idx) => (
-      <option key={country + idx} value={country}>
-        {country}
-      </option>
-    ));
-
-    return (
-      <div className={style.formElement}>
-        <label className={style.label}>
-          {this.props.title}:
-          <select
-            name="country"
-            ref={this.selectRef}
-            onChange={this.changeHandler}
-            className={style.select}
-          >
-            <option></option>
-            {countries}
-          </select>
-        </label>
-        {isShowError && (
-          <span role="alert" className={`${style.error} ${style.errorAbsolute}`}>
-            Choose country
-          </span>
-        )}
-      </div>
-    );
-  }
-}
+export const SelectCountry = ({ name, label, register, params, error }: TSelectCountryProps) => {
+  return (
+    <div className={style.formElement}>
+      <label className={style.label}>
+        {label}
+        <select {...register(name, { ...params })} className={style.select}>
+          <option></option>
+          {countries}
+        </select>
+      </label>
+      {error && (
+        <span role="alert" className={`${style.error} ${style.errorAbsolute}`}>
+          {error.message}
+        </span>
+      )}
+    </div>
+  );
+};
 
 export default SelectCountry;

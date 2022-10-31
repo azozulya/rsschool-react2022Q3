@@ -1,53 +1,36 @@
-import React, { Component, RefObject } from 'react';
+import React from 'react';
+import { FieldError, Path, UseFormRegister } from 'react-hook-form';
+import { TCreateFormValues } from '../CreateForm.types';
 import style from '../CreateForm.module.css';
 
-type TProps = {
-  ariaLabel: string;
+type TTextInputProps = {
+  name: Path<TCreateFormValues>;
   label: string;
-  inpName: string;
   type: 'text' | 'date';
-  isShowError: boolean;
-  setValue: (key: string, value: string) => void;
+  register: UseFormRegister<TCreateFormValues>;
+  params: Record<string, string>;
+  error: FieldError | undefined;
 };
 
-export class TextInput extends Component<TProps, never> {
-  private inputRef: RefObject<HTMLInputElement>;
-  private isShowError = false;
-
-  constructor(props: TProps) {
-    super(props);
-    this.inputRef = React.createRef();
-  }
-
-  changeHandler = () => {
-    this.props.setValue(this.props.inpName, this.inputRef?.current?.value || '');
-  };
-
-  render() {
-    this.isShowError = this.props.isShowError && !this.inputRef.current?.value;
-
-    return (
-      <div className={style.formElement}>
-        <label className={style.label}>
-          {this.props.label}:
-          <input
-            aria-label={this.props.ariaLabel}
-            autoComplete="off"
-            name={this.props.inpName}
-            type={this.props.type}
-            ref={this.inputRef}
-            onChange={this.changeHandler}
-            className={style.inp}
-          />
-        </label>
-        {this.isShowError && (
-          <span role="alert" className={`${style.error} ${style.errorAbsolute}`}>
-            This is a required field
-          </span>
-        )}
-      </div>
-    );
-  }
-}
+export const TextInput = ({ type, name, label, register, params, error }: TTextInputProps) => {
+  return (
+    <div className={style.formElement}>
+      <label className={style.label}>
+        {label}:
+        <input
+          autoComplete="off"
+          type={type}
+          className={style.inp}
+          {...register(name, { ...params })}
+        />
+      </label>
+      {error && (
+        <span role="alert" className={`${style.error} ${style.errorAbsolute}`}>
+          {error.message}
+        </span>
+      )}
+    </div>
+  );
+};
 
 export default TextInput;

@@ -1,26 +1,25 @@
-import React, { Component } from 'react';
-import { CreateForm, CreateFormTypes } from '../components/CreateForm';
+import React, { useState } from 'react';
+import { CreateForm } from '../components/CreateForm';
+import { TUserCard } from '../components/CreateForm/CreateForm.types';
 import { UsersList } from '../components/UsersList';
 
-export class FormPage extends Component {
-  state = {
-    users: [],
+type TFormState = {
+  users: TUserCard[];
+};
+
+export const FormPage: React.FC = () => {
+  const [state, setState] = useState<TFormState>({ users: [] });
+
+  const onSubmit = (user: TUserCard) => {
+    setState({ users: [...state.users, { ...user, id: Date.now() }] });
   };
 
-  onSubmit = (user: CreateFormTypes.TUserCard) => {
-    this.setState((prevState: { users: CreateFormTypes.TUserCard[] }) => {
-      return { users: [...prevState.users, { ...user, id: Date.now() }] };
-    });
-  };
-
-  render() {
-    return (
-      <>
-        <CreateForm onSubmit={this.onSubmit} />
-        <UsersList users={this.state.users} />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <CreateForm onSubmit={onSubmit} />
+      <UsersList users={state.users} />
+    </>
+  );
+};
 
 export default FormPage;
