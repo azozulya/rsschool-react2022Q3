@@ -5,7 +5,7 @@ const usersData = [
     gender: 'Male',
     birthday: '2000-03-24',
     country: 'Cyprus',
-    avatar: '',
+    avatar: './assets/test-img.png',
     agree: true,
   },
   {
@@ -14,7 +14,7 @@ const usersData = [
     gender: 'Male',
     birthday: '2000-05-05',
     country: 'Italy',
-    avatar: '',
+    avatar: './assets/test-img.png',
     agree: true,
   },
 ];

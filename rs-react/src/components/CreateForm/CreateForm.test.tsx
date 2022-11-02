@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import CreateForm from './CreateForm';
 import userEvent from '@testing-library/user-event';
 
@@ -34,7 +34,9 @@ describe('Form', () => {
   beforeEach(() => {
     URL.createObjectURL = jest.fn(() => testImg);
 
-    render(<CreateForm onSubmit={submitHandler} />);
+    act(() => {
+      render(<CreateForm onSubmit={submitHandler} />);
+    });
 
     formElement = screen.getByRole('form', { name: /user form/i });
     submitBtn = screen.getByRole('button', { name: /submit/i });
@@ -47,7 +49,6 @@ describe('Form', () => {
   });
 
   test('renders form', () => {
-    screen.debug();
     expect(formElement).toBeInTheDocument();
   });
 
@@ -69,12 +70,17 @@ describe('Form', () => {
 
   test('change name field set submit button active', () => {
     expect(submitBtn).toBeDisabled();
-    userEvent.paste(nameInput, 'Nick');
+    act(() => {
+      userEvent.paste(nameInput, 'Nick');
+    });
     expect(submitBtn).not.toBeDisabled();
   });
 
   test('show avatar preview', async () => {
-    userEvent.upload(fileUploadElement, file);
+    act(() => {
+      userEvent.upload(fileUploadElement, file);
+    });
+
     expect(URL.createObjectURL(file)).toBe(testImg);
 
     const preview = await screen.findByTestId(/avatarPreview/i);
@@ -82,10 +88,15 @@ describe('Form', () => {
   });
 
   test('should validate form fields before submit and show alerts', async () => {
-    userEvent.type(nameInput, 'Nick');
+    act(() => {
+      userEvent.type(nameInput, 'Nick');
+    });
 
     expect(submitBtn).not.toBeDisabled();
-    userEvent.click(submitBtn);
+
+    act(() => {
+      userEvent.click(submitBtn);
+    });
 
     const errorMessages = await screen.findAllByRole('alert');
     expect(errorMessages).toBeDefined();
@@ -94,15 +105,19 @@ describe('Form', () => {
   });
 
   test('should show success message after submit', async () => {
-    userEvent.paste(nameInput, user.name);
-    userEvent.paste(dateInput, user.birthday);
-    userEvent.selectOptions(selectElement, user.country);
-    userEvent.click(checkboxElement);
-    userEvent.click(radioElement);
-    userEvent.upload(fileUploadElement, file);
+    act(() => {
+      userEvent.paste(nameInput, user.name);
+      userEvent.paste(dateInput, user.birthday);
+      userEvent.selectOptions(selectElement, user.country);
+      userEvent.click(checkboxElement);
+      userEvent.click(radioElement);
+      userEvent.upload(fileUploadElement, file);
+    });
 
     expect(submitBtn).toBeEnabled();
-    userEvent.click(submitBtn);
+    act(() => {
+      userEvent.click(submitBtn);
+    });
 
     // const successMessage = await screen.findByTestId('successMessage');
     // expect(successMessage).toBeInTheDocument();

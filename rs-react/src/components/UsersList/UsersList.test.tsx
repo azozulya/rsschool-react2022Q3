@@ -23,7 +23,7 @@ describe('User list', () => {
     const users = await getUsers();
     render(<UsersList users={users} />);
 
-    const avatars = screen.getAllByRole('img');
+    const avatars = screen.getAllByTestId('img');
     expect(avatars).toBeDefined();
     expect(avatars).toHaveLength(usersData.length);
   });

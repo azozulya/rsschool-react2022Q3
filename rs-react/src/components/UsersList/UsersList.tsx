@@ -15,7 +15,7 @@ export class UsersList extends Component<TProps> {
     const { id, username, birthday, country, gender, avatar } = user;
     return (
       <div key={id} className={style.user}>
-        <img src={avatar} className={style.userAvatar} />
+        {avatar && <img src={avatar} className={style.userAvatar} data-testid="img" />}
         <ul className={style.userContent}>
           <li className={style.userOption}>
             <span className={style.label}>Name:</span> {username}

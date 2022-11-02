@@ -9,8 +9,8 @@ type TFileInputProps = {
   register: UseFormRegister<TCreateFormValues>;
   params: Record<string, string>;
   error: FieldError | undefined;
-  setValue: UseFormSetValue<TCreateFormValues>;
   isSubmitSuccessful: boolean;
+  setValue: UseFormSetValue<TCreateFormValues>;
 };
 
 export const FileInput = ({
@@ -22,21 +22,21 @@ export const FileInput = ({
   isSubmitSuccessful,
 }: TFileInputProps) => {
   const [avatarUrl, setAvatarUrl] = useState('');
+  const fileRegister = register(name, { ...params });
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    fileRegister.onChange(event);
     const inputFile = event.target as HTMLInputElement;
+    if (!inputFile) return;
     const url = URL.createObjectURL(inputFile?.files?.item(0) as File);
     setAvatarUrl(url);
-    setValue(name, url);
-    console.log(name, url);
   };
 
   useEffect(() => {
-    console.log('useEffect: ', isSubmitSuccessful);
     if (!isSubmitSuccessful) return;
 
     setAvatarUrl('');
-    setValue(name, '');
+    setValue(name, undefined);
   }, [isSubmitSuccessful, name, setValue]);
 
   return (
@@ -55,9 +55,9 @@ export const FileInput = ({
           aria-label="Choose avatar"
           accept=".jpg, .jpeg, .png"
           className={style.fileInp}
+          {...fileRegister}
           onChange={onChange}
         />
-        <input type="hidden" {...register(name, { ...params })} />
         <button className={style.fileCustom}>Choose file</button>
       </label>
 

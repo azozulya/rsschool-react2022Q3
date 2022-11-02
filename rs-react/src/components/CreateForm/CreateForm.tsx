@@ -3,14 +3,14 @@ import FileInput from './elements/FileInput';
 import TextInput from './elements/TextInput';
 import SelectCountry from './elements/SelectCountry';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { EGender, TCreateFormValues, TCreateFormProps, TUserCard } from './CreateForm.types';
+import { EGender, TCreateFormValues, TCreateFormProps } from './CreateForm.types';
 import style from './CreateForm.module.css';
 
 const initialValues: TCreateFormValues = {
   username: '',
   birthday: '',
   gender: undefined,
-  avatar: '',
+  avatar: undefined,
   agree: false,
   country: '',
 };
@@ -29,7 +29,10 @@ export function CreateForm(props: TCreateFormProps) {
   });
   const genderArray = Object.values(EGender);
 
-  const onSubmitHandler: SubmitHandler<TCreateFormValues> = (user: TUserCard) => {
+  const onSubmitHandler: SubmitHandler<TCreateFormValues> = (data: TCreateFormValues) => {
+    const avatarUrl = data.avatar && data.avatar[0] && URL.createObjectURL(data.avatar[0]);
+    const user = { ...data, avatar: avatarUrl };
+
     props.onSubmit(user);
     setShowSuccessMessage(true);
     setTimeout(() => setShowSuccessMessage(false), 1500);
@@ -51,8 +54,8 @@ export function CreateForm(props: TCreateFormProps) {
           <div className={style.formContent}>
             <FileInput
               name="avatar"
-              setValue={setValue}
               isSubmitSuccessful={isSubmitSuccessful}
+              setValue={setValue}
               register={register}
               params={{ required: 'Choose file for avatar' }}
               error={errors.avatar}
@@ -129,7 +132,6 @@ export function CreateForm(props: TCreateFormProps) {
               </span>
             )}
           </div>
-
           <input
             type="submit"
             className={style.submit}
@@ -141,7 +143,7 @@ export function CreateForm(props: TCreateFormProps) {
           />
         </fieldset>
       </form>
-      {isSubmitSuccessful ? 'true' : 'false'}
+
       {showSuccessMessage && (
         <div className={style.success} data-testid="successMessage">
           <div>

@@ -4,11 +4,19 @@ interface TCreateFormValues {
   gender: string | undefined;
   birthday: string;
   agree: boolean;
-  avatar?: string;
+  avatar?: FileList | undefined;
   country: string;
 }
 
-type TUserCard = TCreateFormValues;
+type TUserCard = {
+  id?: number;
+  username: string;
+  gender: string | undefined;
+  birthday: string;
+  agree: boolean;
+  avatar: string | undefined;
+  country: string;
+};
 
 type TCreateFormProps = {
   onSubmit: (user: TUserCard) => void;
