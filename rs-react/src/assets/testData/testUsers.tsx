@@ -1,6 +1,6 @@
 const usersData = [
   {
-    id: 355,
+    id: '355',
     username: 'Mike',
     gender: 'Male',
     birthday: '2000-03-24',
@@ -9,7 +9,7 @@ const usersData = [
     agree: true,
   },
   {
-    id: 456,
+    id: '456',
     username: 'Nick',
     gender: 'Male',
     birthday: '2000-05-05',

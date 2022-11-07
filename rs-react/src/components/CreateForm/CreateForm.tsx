@@ -141,7 +141,6 @@ export function CreateForm(props: TCreateFormProps) {
           />
         </fieldset>
       </form>
-      {isSubmitSuccessful ? 'true' : 'false'}
       {showSuccessMessage && (
         <div className={style.success} data-testid="successMessage">
           <div>

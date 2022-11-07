@@ -1,0 +1,20 @@
+.pagination {
+  display: flex;
+  list-style: none;
+  gap: .2rem;
+}
+
+.page {
+  padding: .4rem;
+  cursor: pointer;
+}
+
+.page:hover {
+  color: brown;
+}
+
+.current {
+  background-color: blueviolet;
+  color: #fff;
+  padding: .4rem;
+}

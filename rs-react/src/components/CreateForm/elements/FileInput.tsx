@@ -28,11 +28,9 @@ export const FileInput = ({
     const url = URL.createObjectURL(inputFile?.files?.item(0) as File);
     setAvatarUrl(url);
     setValue(name, url);
-    console.log(name, url);
   };
 
   useEffect(() => {
-    console.log('useEffect: ', isSubmitSuccessful);
     if (!isSubmitSuccessful) return;
 
     setAvatarUrl('');

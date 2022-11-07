@@ -1,5 +1,5 @@
 interface TCreateFormValues {
-  id?: number;
+  id?: string;
   username: string;
   gender: string | undefined;
   birthday: string;

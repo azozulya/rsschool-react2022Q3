@@ -1,27 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useReducer } from 'react';
 import Modal from '../components/Modal/Modal';
 import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator';
+import Sort from '../components/Sort/Sort';
+import movieReducer from '../reducer/movieReducer';
 import { getData } from '../api/getData';
-import { getPopular } from '../api/getPopular';
 import { Cards } from '../components/Cards';
-import { TCard } from '../components/Cards/Card/types';
 import { SearchBar } from '../components/SearchBar';
-import { SEARCH_STRING_LS } from '../utils/constants';
-import { TCards } from '../components/Cards/types';
-
-type TState = {
-  title: string;
-  page: number;
-  total_pages: number;
-  total_results: number;
-  results: TCard[] | null;
-  isLoading: boolean;
-  currentMovieID: number | null;
-};
+import { Pagination } from '../components/Pagination';
+import { ActionType } from '../reducer/movieReducer.types';
+import { MovieContext } from '../context/MovieContext';
+import { useGlobalContext } from '../context/GlobalContext';
 
 const initialState = {
   title: '',
-  page: 1,
   results: null,
   total_pages: 0,
   total_results: 0,
@@ -30,65 +21,47 @@ const initialState = {
 };
 
 const Main: React.FC = function () {
-  const [state, setState] = useState<TState>(initialState);
+  const [state, dispatch] = useReducer(movieReducer, initialState);
+  const { currentPage, searchString } = useGlobalContext();
 
-  const getPopularMovies = async () => {
-    getPopular().then((popularMovies: TCards | null) => {
-      setState((prevState) => ({
-        ...prevState,
-        ...popularMovies,
-        isLoading: false,
-        title: 'Popular movies',
-      }));
-    });
-  };
+  const getMovies = useCallback(
+    async (searchStr: string) => {
+      dispatch({
+        type: ActionType.LOADING,
+      });
 
-  const getMovies = useCallback(async (searchStr: string) => {
-    if (!searchStr) {
-      return setState((prevState) => ({
-        ...prevState,
-        results: null,
-        isLoading: false,
-        title: 'What do you want to search?',
-      }));
-    }
+      getData(searchStr, currentPage).then((searchMovies) => {
+        if (!searchMovies || !searchMovies.total_results) {
+          dispatch({
+            type: ActionType.SET_MOVIES,
+            payload: {
+              results: null,
+              isLoading: false,
+              title: 'Nothing find. Try again.',
+            },
+          });
+          return;
+        }
 
-    setState((prevState) => ({
-      ...prevState,
-      isLoading: true,
-    }));
-
-    getData(searchStr).then((searchMovies) => {
-      if (!searchMovies || !searchMovies.total_results) {
-        return setState((prevState) => ({
-          ...prevState,
-          results: null,
-          isLoading: false,
-          title: 'Nothing find. Try again.',
-        }));
-      }
-
-      setState((prevState) => ({
-        ...prevState,
-        ...searchMovies,
-        isLoading: false,
-        title: `Find ${searchMovies.total_results} movies. Page ${searchMovies.page} from ${searchMovies.total_pages}`,
-      }));
-    });
-  }, []);
+        dispatch({
+          type: ActionType.SET_MOVIES,
+          payload: {
+            ...searchMovies,
+            isLoading: false,
+            title: `Find ${searchMovies.total_results} movies. Page ${searchMovies.page} from ${searchMovies.total_pages}`,
+          },
+        });
+      });
+    },
+    [currentPage]
+  );
 
   useEffect(() => {
-    const searchString = localStorage.getItem(SEARCH_STRING_LS) || '';
-
-    !searchString ? getPopularMovies() : getMovies(searchString);
-  }, [getMovies]);
-
-  const searchHandler = async (searchStr: string) => {
-    getMovies(searchStr);
-  };
+    searchString && getMovies(searchString);
+  }, [getMovies, searchString]);
 
   const clickHandler = (id: number) => {
-    setState({ ...state, currentMovieID: id });
+    //setState({ ...state, currentMovieID: id });
     document.body.style.paddingRight = `${window.innerWidth - document.body.offsetWidth}px`;
     document.body.classList.add('noscroll');
   };
@@ -98,24 +71,36 @@ const Main: React.FC = function () {
 
     if (element.closest('[data-id=modal]') && element.ariaLabel !== 'Close') return;
 
-    setState({ ...state, currentMovieID: null });
+    //setState({ ...state, currentMovieID: null });
     document.body.classList.remove('noscroll');
     document.body.style.paddingRight = '0px';
   };
 
+  if (!searchString)
+    return (
+      <>
+        <SearchBar />
+        <div>Let find something interesting</div>
+      </>
+    );
+
   return (
-    <>
+    <MovieContext.Provider value={{ state, dispatch }}>
       {state.currentMovieID && <Modal id={state.currentMovieID} onClose={closeHandler} />}
-      <SearchBar onSearch={searchHandler} />
+      <SearchBar />
 
       <h2>{state.title}</h2>
+
+      {searchString && <Sort />}
 
       {state.isLoading ? (
         <LoadingIndicator />
       ) : (
         state.results && <Cards items={state.results} onCardClick={clickHandler} />
       )}
-    </>
+
+      {searchString && <Pagination total={state.total_pages > 500 ? 500 : state.total_pages} />}
+    </MovieContext.Provider>
   );
 };
 

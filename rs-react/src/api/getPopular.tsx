@@ -1,9 +1,9 @@
 import { TCards } from '../components/Cards/types';
 import { API_POPULAR_URL } from '../utils/constants';
 
-async function getPopular(): Promise<TCards | null> {
+async function getPopular(page: number): Promise<TCards | null> {
   try {
-    return await fetch(API_POPULAR_URL)
+    return await fetch(`${API_POPULAR_URL}&page=${page}`)
       .then((response) => response.json())
       .then((data: TCards) => {
         return data;
