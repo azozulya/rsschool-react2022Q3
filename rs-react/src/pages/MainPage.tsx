@@ -1,8 +1,4 @@
 import React, { useCallback, useEffect, useReducer } from 'react';
-import Modal from '../components/Modal/Modal';
-import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator';
-import Sort from '../components/Sort/Sort';
-import movieReducer from '../reducer/movieReducer';
 import { getData } from '../api/getData';
 import { Cards } from '../components/Cards';
 import { SearchBar } from '../components/SearchBar';
@@ -10,32 +6,36 @@ import { Pagination } from '../components/Pagination';
 import { ActionType } from '../reducer/movieReducer.types';
 import { MovieContext } from '../context/MovieContext';
 import { useGlobalContext } from '../context/GlobalContext';
+import { MAX_PHOTOS } from '../utils/constants';
+import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator';
+import Sort from '../components/Sort/Sort';
+import movieReducer from '../reducer/movieReducer';
 
 const initialState = {
   title: '',
-  results: null,
-  total_pages: 0,
-  total_results: 0,
+  photo: null,
+  pages: 0,
+  total: 0,
   isLoading: true,
   currentMovieID: null,
 };
 
 const Main: React.FC = function () {
   const [state, dispatch] = useReducer(movieReducer, initialState);
-  const { currentPage, searchString } = useGlobalContext();
+  const { currentPage, perPage, searchString, sort } = useGlobalContext();
 
-  const getMovies = useCallback(
+  const getImages = useCallback(
     async (searchStr: string) => {
       dispatch({
         type: ActionType.LOADING,
       });
 
-      getData(searchStr, currentPage).then((searchMovies) => {
-        if (!searchMovies || !searchMovies.total_results) {
+      getData(searchStr, currentPage, perPage, sort).then((photoData) => {
+        if (!photoData || !photoData.total) {
           dispatch({
             type: ActionType.SET_MOVIES,
             payload: {
-              results: null,
+              photo: null,
               isLoading: false,
               title: 'Nothing find. Try again.',
             },
@@ -43,38 +43,27 @@ const Main: React.FC = function () {
           return;
         }
 
+        const total =
+          photoData.pages > MAX_PHOTOS ? MAX_PHOTOS * parseInt(perPage) : photoData.total;
+
         dispatch({
           type: ActionType.SET_MOVIES,
           payload: {
-            ...searchMovies,
+            ...photoData,
             isLoading: false,
-            title: `Find ${searchMovies.total_results} movies. Page ${searchMovies.page} from ${searchMovies.total_pages}`,
+            title: `Find ${total} movies. Page ${photoData.page} from ${
+              photoData.pages > MAX_PHOTOS ? MAX_PHOTOS : photoData.pages
+            }`,
           },
         });
       });
     },
-    [currentPage]
+    [currentPage, perPage, sort]
   );
 
   useEffect(() => {
-    searchString && getMovies(searchString);
-  }, [getMovies, searchString]);
-
-  const clickHandler = (id: number) => {
-    //setState({ ...state, currentMovieID: id });
-    document.body.style.paddingRight = `${window.innerWidth - document.body.offsetWidth}px`;
-    document.body.classList.add('noscroll');
-  };
-
-  const closeHandler = (event: React.MouseEvent<HTMLElement>) => {
-    const element = event.target as HTMLElement;
-
-    if (element.closest('[data-id=modal]') && element.ariaLabel !== 'Close') return;
-
-    //setState({ ...state, currentMovieID: null });
-    document.body.classList.remove('noscroll');
-    document.body.style.paddingRight = '0px';
-  };
+    searchString && getImages(searchString);
+  }, [getImages, searchString]);
 
   if (!searchString)
     return (
@@ -86,20 +75,16 @@ const Main: React.FC = function () {
 
   return (
     <MovieContext.Provider value={{ state, dispatch }}>
-      {state.currentMovieID && <Modal id={state.currentMovieID} onClose={closeHandler} />}
       <SearchBar />
 
-      <h2>{state.title}</h2>
+      <div className="infoPanel">
+        <h2>{state.title}</h2>
+        {state.photo && <Sort />}
+      </div>
 
-      {searchString && <Sort />}
+      {state.isLoading ? <LoadingIndicator /> : state.photo && <Cards items={state.photo} />}
 
-      {state.isLoading ? (
-        <LoadingIndicator />
-      ) : (
-        state.results && <Cards items={state.results} onCardClick={clickHandler} />
-      )}
-
-      {searchString && <Pagination total={state.total_pages > 500 ? 500 : state.total_pages} />}
+      {state.photo && <Pagination total={state.pages > MAX_PHOTOS ? MAX_PHOTOS : state.pages} />}
     </MovieContext.Provider>
   );
 };

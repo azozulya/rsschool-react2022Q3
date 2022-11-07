@@ -1,0 +1,12 @@
+.panel {
+  background-color: #eee;
+  padding: .3rem;
+  display: flex;
+  gap: 2rem;
+  justify-content: flex-end;
+}
+
+.title {
+  margin-right: 1rem;
+  font-size: .8rem;
+}

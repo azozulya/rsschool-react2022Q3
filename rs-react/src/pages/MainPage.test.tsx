@@ -2,7 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import Main from './MainPage';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { API_POPULAR_URL, API_URL } from '../utils/constants';
+import { API_URL } from '../utils/constants';
 import * as movies from '../assets/testData/movies.json';
 
 const QUERY_STRING = 'cars';
@@ -27,7 +27,7 @@ describe('Main page', () => {
   test('renders popular movies', async () => {
     render(<Main />);
     expect(fetch).toBeCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(API_POPULAR_URL);
+    expect(fetch).toHaveBeenCalledWith(API_URL);
 
     // const cards = await screen.findAllByTestId('card');
     // expect(cards).toBeDefined();

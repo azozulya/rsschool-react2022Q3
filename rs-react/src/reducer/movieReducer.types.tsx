@@ -15,9 +15,9 @@ interface IAction {
 
 interface IState {
   title: string;
-  total_pages: number;
-  total_results: number;
-  results: TCard[] | null;
+  pages: number;
+  total: number;
+  photo: TCard[] | null;
   isLoading: boolean;
   currentMovieID: number | null;
 }

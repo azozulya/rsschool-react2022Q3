@@ -19,6 +19,7 @@ const SearchBar = () => {
         defaultValue={searchString}
         placeholder="Search"
         className={style.input}
+        autoComplete="off"
       />
     </form>
   );

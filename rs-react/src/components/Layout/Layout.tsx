@@ -9,18 +9,15 @@ enum ActionType {
   GO_TO_PAGE = 'goToPage',
   GO_TO_NEXT_PAGE = 'goToNextPage',
   GO_TO_PREV_PAGE = 'goToPrevPage',
+  SET_PER_PAGE = 'setPerPage',
   SET_SEARCH_STRING = 'setSearchString',
+  SET_SORT = 'setSort',
   ADD_USER = 'addUser',
 }
 
-// interface IAction {
-//   type: ActionType;
-//   payload?: Partial<IState>;
-// }
-
 interface IState {
   page: number;
-  perPage: number;
+  perPage: string;
   sort: string;
   searchString: string;
   users: TUserCard[];
@@ -40,17 +37,21 @@ type GoToPageAction = {
   payload: number;
 };
 
-type SetSearchStringAction = {
-  type: ActionType.SET_SEARCH_STRING;
+type SetSearchStringPerPageSortAction = {
+  type: ActionType.SET_SEARCH_STRING | ActionType.SET_PER_PAGE | ActionType.SET_SORT;
   payload: string;
 };
 
-type IAction = AddUserAction | GoToPrevNextPageAction | GoToPageAction | SetSearchStringAction;
+type IAction =
+  | AddUserAction
+  | GoToPrevNextPageAction
+  | GoToPageAction
+  | SetSearchStringPerPageSortAction;
 
 const initialState = {
   page: 1,
-  sort: 'popular',
-  perPage: 20,
+  sort: 'date-posted-desc',
+  perPage: '20',
   searchString: '',
   users: [],
 };
@@ -59,12 +60,14 @@ const globalReducer: Reducer<IState, IAction> = (state, action) => {
   switch (action.type) {
     case ActionType.GO_TO_PAGE:
       return { ...state, page: action.payload };
-    // case ActionType.SORT:
-    //   return { ...state, sort: action.payload };
+    case ActionType.SET_SORT:
+      return { ...state, sort: action.payload };
     case ActionType.GO_TO_NEXT_PAGE:
       return { ...state, page: state.page + 1 };
     case ActionType.GO_TO_PREV_PAGE:
       return { ...state, page: state.page - 1 };
+    case ActionType.SET_PER_PAGE:
+      return { ...state, perPage: action.payload };
     case ActionType.SET_SEARCH_STRING:
       return { ...state, searchString: action.payload, page: 1 };
     case ActionType.ADD_USER:
@@ -80,9 +83,17 @@ const Layout = () => {
   const value = {
     users: state.users,
     currentPage: state.page,
+    perPage: state.perPage,
     searchString: state.searchString,
+    sort: state.sort,
+    setSort: (sort: string) => {
+      dispatch({ type: ActionType.SET_SORT, payload: sort });
+    },
     setCurrentPage: (pageNum: number) => {
       dispatch({ type: ActionType.GO_TO_PAGE, payload: pageNum });
+    },
+    setPerPage: (itemsPerPage: string) => {
+      dispatch({ type: ActionType.SET_PER_PAGE, payload: itemsPerPage });
     },
     setSearchString: (str: string) => {
       dispatch({ type: ActionType.SET_SEARCH_STRING, payload: str });

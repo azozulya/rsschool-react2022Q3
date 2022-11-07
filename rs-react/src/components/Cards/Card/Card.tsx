@@ -1,38 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { TCard } from './types';
 import { API_IMG_URL } from '../../../utils/constants';
-import { getYear } from '../../../utils/utils';
 import style from '../Cards.module.css';
 
 type CardProps = {
   key: string;
   item: TCard;
-  onClick: (id: number) => void;
 };
 
-class Card extends Component<CardProps, never> {
-  private cardItem: TCard;
+const Card = (props: CardProps) => {
+  const { id, title, server, secret, owner } = props.item;
 
-  constructor(props: CardProps) {
-    super(props);
-    this.cardItem = this.props.item;
-  }
+  return (
+    <div className={style.card} data-testid="card">
+      <img src={`${API_IMG_URL}${server}/${id}_${secret}_q.jpg`} alt="" className={style.image} />
 
-  clickHandler = () => {
-    this.props.onClick(this.cardItem.id);
-  };
-
-  render() {
-    const { poster_path: image, title, release_date } = this.cardItem;
-    return (
-      <div className={style.card} data-testid="card" onClick={this.clickHandler}>
-        {image && <img src={`${API_IMG_URL}${image}`} alt="" className={style.image} />}
-        <div className={style.title}>
-          {title}&nbsp;({getYear(release_date)})
-        </div>
+      <div className={style.title}>
+        {title}
+        <a href={`https://www.flickr.com/photos/${owner}`}>author</a>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Card;

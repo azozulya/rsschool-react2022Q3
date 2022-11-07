@@ -1,23 +1,44 @@
-import React from 'react';
-
-const sortParams = ['popularity.asc', 'popularity.desc', 'vote_average.desc', 'vote_average.asc'];
+import React, { RefObject, useRef } from 'react';
+import { useGlobalContext } from '../../context/GlobalContext';
+import { PER_PAGE, SORT_PARAMS } from '../../utils/constants';
+import style from './Sort.module.css';
 
 function Sort() {
+  const { perPage, setPerPage, sort, setSort } = useGlobalContext();
+  const perPageRef: RefObject<HTMLSelectElement> = useRef<HTMLSelectElement>(null);
+  const sortRef: RefObject<HTMLSelectElement> = useRef<HTMLSelectElement>(null);
+
+  const onPerPageChangeHandler = () => {
+    perPageRef.current && setPerPage(perPageRef.current.value);
+  };
+
+  const onSortChangeHandler = () => {
+    console.log('sort: ', sortRef.current && sortRef.current.value);
+    sortRef.current && setSort(sortRef.current.value);
+  };
+
   return (
-    <div>
-      movies per page
-      <select>
-        <option value="20">20</option>
-        <option value="40">40</option>
-        <option value="60">60</option>
-      </select>
-      sort
-      <select>
-        <option value="vote_average.desc">vote_average.desc</option>
-        <option value="vote_average.asc">vote_average.asc</option>
-        <option value="vote_popularity.desc">popularity desc</option>
-        <option value="vote_popularity.asc">popularity asc</option>
-      </select>
+    <div className={style.panel}>
+      <div className={style.perpage}>
+        <span className={style.title}>movies per page</span>
+        <select name="perPage" onChange={onPerPageChangeHandler} ref={perPageRef} value={perPage}>
+          {PER_PAGE.map((item) => (
+            <option key={self.crypto.randomUUID()} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className={style.sort}>
+        <span className={style.title}>sort</span>
+        <select name="sort" value={sort} onChange={onSortChangeHandler} ref={sortRef}>
+          {SORT_PARAMS.map((item) => (
+            <option key={self.crypto.randomUUID()} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 }
