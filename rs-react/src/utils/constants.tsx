@@ -8,7 +8,7 @@ const API_URL = `https://www.flickr.com/services/rest/?method=flickr.photos.sear
 
 const API_IMG_URL = 'https://live.staticflickr.com/';
 
-const API_MOVIE_DETAILS_URL = 'https://api.themoviedb.org/3/movie/';
+const API_PHOTO_DETAILS_URL = `https://www.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=${API_KEY}&format=json&nojsoncallback=1`;
 
 const IMG_EMPTY = 'No image';
 
@@ -32,7 +32,7 @@ export {
   API_KEY,
   API_URL,
   API_IMG_URL,
-  API_MOVIE_DETAILS_URL,
+  API_PHOTO_DETAILS_URL,
   MAX_PHOTOS,
   PER_PAGE,
   SORT_PARAMS,

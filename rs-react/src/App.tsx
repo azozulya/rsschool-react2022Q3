@@ -5,6 +5,7 @@ import Main from './pages/MainPage';
 import NotFound from './pages/NotFoundPage';
 import About from './pages/AboutPage';
 import FormPage from './pages/FormPage';
+import PhotoDetails from './pages/PhotoDetails';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="form" element={<FormPage />} />
           <Route path="about" element={<About />} />
           <Route path="404" element={<NotFound />} />
+          <Route path="photo/:id" element={<PhotoDetails />} />
           <Route path="*" element={<Navigate replace to={'404'} />} />
         </Route>
       </Routes>

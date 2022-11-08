@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
+import { TCardDetails } from '../components/Cards/Card/types';
 import { TUserCard } from '../components/CreateForm/CreateForm.types';
 
 type GlobalContent = {
+  photos: TCardDetails[];
   users: TUserCard[];
   currentPage: number;
   perPage: string;
@@ -14,9 +16,11 @@ type GlobalContent = {
   goNextPage: () => void;
   goPrevPage: () => void;
   addUser: (user: TUserCard) => void;
+  addPhotoDetails: (photo: TCardDetails) => void;
 };
 
 export const GlobalContext = React.createContext<GlobalContent>({
+  photos: [],
   users: [],
   currentPage: 1,
   perPage: '20',
@@ -29,6 +33,7 @@ export const GlobalContext = React.createContext<GlobalContent>({
   goNextPage: () => {},
   goPrevPage: () => {},
   addUser: () => {},
+  addPhotoDetails: () => {},
 });
 
 export const useGlobalContext = () => useContext(GlobalContext);

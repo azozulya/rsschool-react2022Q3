@@ -1,5 +1,6 @@
 import React, { Reducer, useReducer } from 'react';
 import { GlobalContext } from '../../context/GlobalContext';
+import { TCardDetails } from '../Cards/Card/types';
 import { TUserCard } from '../CreateForm/CreateForm.types';
 import Header from './elements/Header';
 import Main from './elements/Main';
@@ -13,6 +14,7 @@ enum ActionType {
   SET_SEARCH_STRING = 'setSearchString',
   SET_SORT = 'setSort',
   ADD_USER = 'addUser',
+  ADD_PHOTO_DETAILS = 'addPhotoDetails',
 }
 
 interface IState {
@@ -21,6 +23,7 @@ interface IState {
   sort: string;
   searchString: string;
   users: TUserCard[];
+  photos: TCardDetails[];
 }
 
 type AddUserAction = {
@@ -42,11 +45,17 @@ type SetSearchStringPerPageSortAction = {
   payload: string;
 };
 
+type AddPhotoDetailsAction = {
+  type: ActionType.ADD_PHOTO_DETAILS;
+  payload: TCardDetails;
+};
+
 type IAction =
   | AddUserAction
   | GoToPrevNextPageAction
   | GoToPageAction
-  | SetSearchStringPerPageSortAction;
+  | SetSearchStringPerPageSortAction
+  | AddPhotoDetailsAction;
 
 const initialState = {
   page: 1,
@@ -54,6 +63,7 @@ const initialState = {
   perPage: '20',
   searchString: '',
   users: [],
+  photos: [],
 };
 
 const globalReducer: Reducer<IState, IAction> = (state, action) => {
@@ -72,6 +82,9 @@ const globalReducer: Reducer<IState, IAction> = (state, action) => {
       return { ...state, searchString: action.payload, page: 1 };
     case ActionType.ADD_USER:
       return { ...state, users: [...state.users, action.payload] };
+    case ActionType.ADD_PHOTO_DETAILS: {
+      return { ...state, photos: [...state.photos, action.payload] };
+    }
     default:
       return state;
   }
@@ -81,6 +94,7 @@ const Layout = () => {
   const [state, dispatch] = useReducer(globalReducer, initialState);
 
   const value = {
+    photos: state.photos,
     users: state.users,
     currentPage: state.page,
     perPage: state.perPage,
@@ -106,6 +120,9 @@ const Layout = () => {
     },
     addUser: (user: TUserCard) => {
       dispatch({ type: ActionType.ADD_USER, payload: user });
+    },
+    addPhotoDetails: (photo: TCardDetails) => {
+      dispatch({ type: ActionType.ADD_PHOTO_DETAILS, payload: photo });
     },
   };
 

@@ -13,7 +13,7 @@ async function getData(
 ): Promise<TCards | null> {
   try {
     return await fetch(
-      `${API_URL}&text=${queryString}&page=${page}&per_page=${perpage}&sort=${sort}&media=photos&license=4`
+      `${API_URL}&text=${queryString}&page=${page}&per_page=${perpage}&sort=${sort}&media=photo&license=4`
     )
       .then((response) => response.json() as Promise<TPhotoResponse>)
       .then((data: TPhotoResponse) => {
