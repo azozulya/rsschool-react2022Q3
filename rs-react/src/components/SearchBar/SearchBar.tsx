@@ -1,9 +1,12 @@
 import React from 'react';
-import { useGlobalContext } from '../../context/GlobalContext';
+import { getData } from '../../api/getData';
+import { useDispatch } from '../../state/dispatchContext';
+import { useGlobalState } from '../../state/globalStateContext';
 import style from './SearchBar.module.css';
 
 const SearchBar = () => {
-  const { searchString, setSearchString } = useGlobalContext();
+  const { searchString } = useGlobalState();
+  const { setSearchString } = useDispatch();
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

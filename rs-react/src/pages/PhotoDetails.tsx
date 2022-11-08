@@ -1,49 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import getPhotoDetails from '../api/getPhotoDetails';
-import { TCardDetails } from '../components/Cards/Card/types';
-import { useGlobalContext } from '../context/GlobalContext';
+import React from 'react';
+import { Link, useParams, Navigate } from 'react-router-dom';
+import { useGlobalState } from '../state/globalStateContext';
 import { API_IMG_URL } from '../utils/constants';
 
 function PhotoDetails() {
   const { id } = useParams();
-  const { photos, addPhotoDetails } = useGlobalContext();
-  const [photo, setPhoto] = useState<TCardDetails>();
+  const { photo } = useGlobalState();
 
-  useEffect(() => {
-    console.log('id: ', id);
-    if (!id) return;
+  const currentPhoto = photo.find((item) => item.id === id);
 
-    const photoDetails = photos.find((item) => item.id === id);
-    console.log('photoDetails: ', photoDetails);
-
-    if (photoDetails) return setPhoto(photoDetails);
-
-    if (!photoDetails) {
-      getPhotoDetails(id).then((photoData) => {
-        console.log(photoData);
-        if (!photoData) return;
-
-        addPhotoDetails(photoData);
-        console.log('photos: ', photos);
-      });
-    }
-  }, [addPhotoDetails, id, photos]);
-
-  // if (!photo) return <Navigate replace to={'404'} />;
+  if (!id || !currentPhoto) {
+    return <Navigate to="/" replace={true} />;
+  }
 
   return (
     <>
       <Link to="..">Back</Link>
-      <div>
-        {photo?.server && (
-          <img src={`${API_IMG_URL}${photo?.server}/${photo?.id}_${photo?.secret}_w.jpg`} alt="" />
-        )}
-        {photo?.title}
-        <p>Views: {photo?.views}</p>
-        <p>Author:{photo?.username}</p>
-        <p>Location: {photo?.location}</p>
-      </div>
+      {currentPhoto && (
+        <div>
+          {currentPhoto.server && (
+            <img
+              src={`${API_IMG_URL}${currentPhoto.server}/${currentPhoto.id}_${currentPhoto.secret}_w.jpg`}
+              alt=""
+            />
+          )}
+          <div>
+            {currentPhoto.title}
+            <p>
+              <a href={`https://www.flickr.com/photos/${currentPhoto.owner}`}>author</a>
+            </p>
+          </div>
+        </div>
+      )}
     </>
   );
 }

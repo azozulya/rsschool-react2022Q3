@@ -16,25 +16,25 @@ type TPhotoResponse = {
 
 async function getPhotoDetails(id: string): Promise<TCardDetails | null> {
   try {
-    return await fetch(`${API_PHOTO_DETAILS_URL}&photo_id=${id}`)
-      .then((response) => response.json() as Promise<TPhotoResponse>)
-      .then((data: TPhotoResponse) => {
-        const { id, title, description, dateuploaded, owner, secret, server, views } = data.photo;
-        return {
-          id,
-          title: title._content,
-          description: description._content,
-          dateuploaded,
-          ...owner,
-          secret,
-          server,
-          views,
-        };
-      })
-      .catch((error) => {
-        console.log('loadPhotoDetails error1: ', error);
-        return null;
-      });
+    // return await fetch(`${API_PHOTO_DETAILS_URL}&photo_id=${id}`)
+    //   .then((response) => response.json() as Promise<TPhotoResponse>)
+    //   .then((data: TPhotoResponse) => {
+    //     const { id, title, description, dateuploaded, owner, secret, server, views } = data.photo;
+    //     return {
+    //       id,
+    //       title: title._content,
+    //       description: description._content,
+    //       dateuploaded,
+    //       ...owner,
+    //       secret,
+    //       server,
+    //       views,
+    //     };
+    //   })
+    //   .catch((error) => {
+    //     console.log('loadPhotoDetails error1: ', error);
+    //     return null;
+    //   });
   } catch (error) {
     console.log('loadPhotoDetails error2: ', error);
   }

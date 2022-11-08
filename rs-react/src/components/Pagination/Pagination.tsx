@@ -1,5 +1,6 @@
 import React from 'react';
-import { useGlobalContext } from '../../context/GlobalContext';
+import { useDispatch } from '../../state/dispatchContext';
+import { useGlobalState } from '../../state/globalStateContext';
 import style from './Pagination.module.css';
 
 interface IProps {
@@ -7,25 +8,40 @@ interface IProps {
 }
 
 const Pagination = (props: IProps) => {
-  const { currentPage, setCurrentPage, goNextPage, goPrevPage } = useGlobalContext();
+  const { page } = useGlobalState();
+  const { setCurrentPage, goNextPage, goPrevPage } = useDispatch();
+
+  if (page === 1 && props.total === 1)
+    return (
+      <div>
+        <ul className={style.pagination}>
+          <li className={style.current}>1</li>
+        </ul>
+      </div>
+    );
+
+  if (page === 1) {
+    return (
+      <div>
+        <ul className={style.pagination}>
+          <li className={style.page}>{'<<'}</li>
+          <li className={style.current}>1</li>
+          <li className={style.page}>...</li>
+          <li className={style.page} onClick={() => setCurrentPage(props.total)}>
+            {props.total}
+          </li>
+          <li className={style.page} onClick={goNextPage}>
+            {'>>'}
+          </li>
+        </ul>
+      </div>
+    );
+  }
+
   return (
     <div>
       <ul className={style.pagination}>
-        {currentPage === 1 && (
-          <>
-            <li className={style.page}>{'<<'}</li>
-            <li className={style.current}>1</li>
-            <li className={style.page}>...</li>
-            <li className={style.page} onClick={() => setCurrentPage(props.total)}>
-              {props.total}
-            </li>
-            <li className={style.page} onClick={goNextPage}>
-              {'>>'}
-            </li>
-          </>
-        )}
-
-        {currentPage < props.total && currentPage > 1 && (
+        {page < props.total && page > 1 && (
           <>
             <li className={style.page} onClick={goPrevPage}>
               {'<<'}
@@ -34,7 +50,7 @@ const Pagination = (props: IProps) => {
               1
             </li>
             <li className={style.page}>...</li>
-            <li className={style.current}>{currentPage}</li>
+            <li className={style.current}>{page}</li>
             <li className={style.page}>...</li>
             <li className={style.page} onClick={() => setCurrentPage(props.total)}>
               {props.total}
@@ -45,7 +61,7 @@ const Pagination = (props: IProps) => {
           </>
         )}
 
-        {currentPage === props.total && (
+        {page === props.total && (
           <>
             <li className={style.page} onClick={goPrevPage}>
               {'<<'}

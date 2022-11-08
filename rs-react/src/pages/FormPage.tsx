@@ -2,10 +2,12 @@ import React from 'react';
 import { CreateForm } from '../components/CreateForm';
 import { TUserCard } from '../components/CreateForm/CreateForm.types';
 import { UsersList } from '../components/UsersList';
-import { useGlobalContext } from '../context/GlobalContext';
+import { useDispatch } from '../state/dispatchContext';
+import { useGlobalState } from '../state/globalStateContext';
 
 export const FormPage: React.FC = () => {
-  const { users, addUser } = useGlobalContext();
+  const { users } = useGlobalState();
+  const { addUser } = useDispatch();
 
   const onSubmit = (user: TUserCard) => {
     addUser({ ...user, id: self.crypto.randomUUID() });
