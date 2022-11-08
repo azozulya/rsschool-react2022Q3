@@ -2,7 +2,7 @@ const SEARCH_STRING_LS = 'search';
 
 const COUNTRIES = ['Cyprus', 'France', 'Italy', 'Spain'];
 
-const API_KEY = '025817b5c967821b262fca2cd381e36f';
+const API_KEY = '14ef8b4215cdd8870297769e768727cf';
 
 const API_URL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${API_KEY}&format=json&nojsoncallback=1`;
 

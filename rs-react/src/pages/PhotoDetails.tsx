@@ -11,6 +11,7 @@ function PhotoDetails() {
   const [photo, setPhoto] = useState<TCardDetails>();
 
   useEffect(() => {
+    console.log('id: ', id);
     if (!id) return;
 
     const photoDetails = photos.find((item) => item.id === id);
@@ -22,17 +23,8 @@ function PhotoDetails() {
       getPhotoDetails(id).then((photoData) => {
         console.log(photoData);
         if (!photoData) return;
-        const { id, title, owner, views, dateuploaded, secret, server } = photoData;
-        addPhotoDetails({
-          dateuploaded,
-          views,
-          ...owner,
-          id,
-          title: title._content,
-          secret,
-          server,
-          owner,
-        });
+
+        addPhotoDetails(photoData);
         console.log('photos: ', photos);
       });
     }
@@ -49,8 +41,8 @@ function PhotoDetails() {
         )}
         {photo?.title}
         <p>Views: {photo?.views}</p>
-        <p>Author:{photo?.owner.username}</p>
-        <p>Location: {photo?.owner.location}</p>
+        <p>Author:{photo?.username}</p>
+        <p>Location: {photo?.location}</p>
       </div>
     </>
   );
