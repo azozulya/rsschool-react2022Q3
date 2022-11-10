@@ -1,17 +1,16 @@
 import React from 'react';
-import { getData } from '../../api/getData';
-import { useDispatch } from '../../state/dispatchContext';
-import { useGlobalState } from '../../state/globalStateContext';
+import { useAppDispatch, useAppSelector } from '../../store/hook';
+import { fetchPhotosBySearchString } from '../../store/photosSlice';
 import style from './SearchBar.module.css';
 
 const SearchBar = () => {
-  const { searchString } = useGlobalState();
-  const { setSearchString } = useDispatch();
+  const { searchString } = useAppSelector((state) => state.photos);
+  const dispatch = useAppDispatch();
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const el = event.target as HTMLFormElement;
-    setSearchString(el.searchString.value);
+    dispatch(fetchPhotosBySearchString(el.searchString.value as string));
   };
 
   return (
