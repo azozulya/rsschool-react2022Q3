@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { fetchPhotosBySearchString } from '../../store/photosSlice';
+import { fetchPhotosBySearchString } from '../../store/thunks';
 import style from './SearchBar.module.css';
 
 const SearchBar = () => {
