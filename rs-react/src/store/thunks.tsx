@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TCards } from '../components/Cards/types';
-import { setSearchString } from './photosSlice';
+import { setSearchString, setSortParam } from './photosSlice';
 import { TInitialState } from './types';
 import API from '../api/API';
 
@@ -71,8 +71,23 @@ export const changeItemsPerPage = createAsyncThunk<
   const { searchString, page, sort } = getState().photos;
 
   try {
-    return await API.getPhotos(searchString, page - 1, perpage, sort);
+    return await API.getPhotos(searchString, page, perpage, sort);
   } catch (error) {
     return rejectWithValue(error);
   }
 });
+
+export const sortItems = createAsyncThunk<TCards, string, { state: { photos: TInitialState } }>(
+  'photos/fetchPhotosWithSort',
+  async function (sort: string, { rejectWithValue, getState, dispatch }) {
+    const { searchString, page, perpage } = getState().photos;
+
+    dispatch(setSortParam(sort));
+
+    try {
+      return await API.getPhotos(searchString, page, perpage, sort);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);

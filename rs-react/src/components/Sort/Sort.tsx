@@ -1,23 +1,23 @@
 import React, { RefObject, useRef } from 'react';
-import { useDispatch } from '../../state/dispatchContext';
-import { useGlobalState } from '../../state/globalStateContext';
+import { useAppDispatch, useAppSelector } from '../../store/hook';
+import { changeItemsPerPage, sortItems } from '../../store/thunks';
 import { PER_PAGE, SORT_PARAMS } from '../../utils/constants';
 import style from './Sort.module.css';
 
 function Sort() {
-  const { setPerPage, setSort } = useDispatch();
-  const { perpage, sort } = useGlobalState();
+  const dispatch = useAppDispatch();
+  const { perpage, sort } = useAppSelector((state) => state.photos);
+
   const perPageRef: RefObject<HTMLSelectElement> = useRef<HTMLSelectElement>(null);
   const sortRef: RefObject<HTMLSelectElement> = useRef<HTMLSelectElement>(null);
 
   const onPerPageChangeHandler = () => {
-    console.log('perPage: ', perPageRef.current && perPageRef.current.value);
-    perPageRef.current && setPerPage(perPageRef.current.value);
+    perPageRef.current && dispatch(changeItemsPerPage(perPageRef.current.value));
   };
 
   const onSortChangeHandler = () => {
     console.log('sort: ', sortRef.current && sortRef.current.value);
-    sortRef.current && setSort(sortRef.current.value);
+    sortRef.current && dispatch(sortItems(sortRef.current.value));
   };
 
   return (
@@ -45,5 +45,5 @@ function Sort() {
     </div>
   );
 }
-// sort_by=vote_average.desc
+
 export default Sort;

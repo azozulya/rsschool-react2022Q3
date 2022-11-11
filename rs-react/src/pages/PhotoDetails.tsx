@@ -1,13 +1,19 @@
 import React from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
-import { useGlobalState } from '../state/globalStateContext';
+import { useAppSelector } from '../store/hook';
 import { API_IMG_URL } from '../utils/constants';
+import style from './PhotoDetails.module.css';
 
 function PhotoDetails() {
   const { id } = useParams();
-  const { photo } = useGlobalState();
-
-  const currentPhoto = photo.find((item) => item.id === id);
+  const { photo } = useAppSelector((state) => state.photos);
+  let currentPhotoIndex = 0;
+  const currentPhoto = photo.find((item, idx) => {
+    if (item.id === id) {
+      currentPhotoIndex = idx;
+      return item;
+    }
+  });
 
   if (!id || !currentPhoto) {
     return <Navigate to="/" replace={true} />;
@@ -17,20 +23,30 @@ function PhotoDetails() {
     <>
       <Link to="..">Back</Link>
       {currentPhoto && (
-        <div>
-          {currentPhoto.server && (
-            <img
-              src={`${API_IMG_URL}${currentPhoto.server}/${currentPhoto.id}_${currentPhoto.secret}_w.jpg`}
-              alt=""
-            />
-          )}
-          <div>
-            {currentPhoto.title}
-            <p>
-              <a href={`https://www.flickr.com/photos/${currentPhoto.owner}`}>author</a>
-            </p>
+        <>
+          <p className={style.position}>This photo is {currentPhotoIndex + 1} in the photo list</p>
+
+          <div className={style.details}>
+            {currentPhoto.server && (
+              <img
+                src={`${API_IMG_URL}${currentPhoto.server}/${currentPhoto.id}_${currentPhoto.secret}_w.jpg`}
+                alt=""
+              />
+            )}
+            <div>
+              <h3>{currentPhoto.title}</h3>
+              <p>
+                <a
+                  href={`https://www.flickr.com/photos/${currentPhoto.owner}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Author page
+                </a>
+              </p>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

@@ -1,4 +1,7 @@
 import { AnyAction, createSlice } from '@reduxjs/toolkit';
+import { redirect } from 'react-router-dom';
+import { TCard } from '../components/Cards/Card/types';
+import { MAX_PHOTOS } from '../utils/constants';
 import { TInitialState } from './types';
 
 const initialState: TInitialState = {
@@ -22,7 +25,9 @@ const photosSlice = createSlice({
     setSearchString(state, action) {
       state.searchString = action.payload;
     },
-    sort(state, action) {},
+    setSortParam(state, action) {
+      state.sort = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -36,17 +41,18 @@ const photosSlice = createSlice({
       .addMatcher(
         (action: AnyAction) => action.type.endsWith('fulfilled'),
         (state, action) => {
-          const { page, photo, pages, total } = action.payload;
-          state.photo = photo;
-          state.pages = pages;
-          state.total = total;
+          const { page, photo, pages, total, perpage } = action.payload;
           state.page = page;
+          state.pages = pages > MAX_PHOTOS ? MAX_PHOTOS : pages;
+          state.perpage = perpage;
+          state.photo = photo;
+          state.total = total;
           state.loading = false;
         }
       );
   },
 });
 
-export const { sort, setSearchString } = photosSlice.actions;
+export const { setSortParam, setSearchString } = photosSlice.actions;
 
 export default photosSlice.reducer;

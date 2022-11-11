@@ -14,7 +14,7 @@ const IMG_EMPTY = 'No image';
 
 const MAX_PHOTOS = 500;
 
-const PER_PAGE = [5, 20, 30, 40, 60];
+const PER_PAGE = [5, 10, 20, 30, 40, 60];
 
 const SORT_PARAMS = [
   'date-posted-desc',

@@ -1,0 +1,11 @@
+.details {
+  border: solid 1px rgb(153, 153, 153);
+  width: fit-content;
+  padding: 0.4rem;
+  border-radius: 0.2rem;
+  margin: 0 auto;
+}
+
+.position {
+  text-align: center;
+}
