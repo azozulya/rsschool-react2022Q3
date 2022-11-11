@@ -1,17 +1,13 @@
 import React from 'react';
-import { useDispatch } from '../../state/dispatchContext';
-import { useGlobalState } from '../../state/globalStateContext';
+import { useAppDispatch, useAppSelector } from '../../store/hook';
+import { goToNextPage, goToPrevPage, goToPage } from '../../store/photosSlice';
 import style from './Pagination.module.css';
 
-interface IProps {
-  total: number;
-}
+const Pagination = () => {
+  const { page, pages } = useAppSelector((state) => state.photos);
+  const dispatch = useAppDispatch();
 
-const Pagination = (props: IProps) => {
-  const { page } = useGlobalState();
-  const { setCurrentPage, goNextPage, goPrevPage } = useDispatch();
-
-  if (page === 1 && props.total === 1)
+  if (page === 1 && pages === 1)
     return (
       <div>
         <ul className={style.pagination}>
@@ -27,10 +23,10 @@ const Pagination = (props: IProps) => {
           <li className={style.page}>{'<<'}</li>
           <li className={style.current}>1</li>
           <li className={style.page}>...</li>
-          <li className={style.page} onClick={() => setCurrentPage(props.total)}>
-            {props.total}
+          <li className={style.page} onClick={() => dispatch(goToPage(pages))}>
+            {pages}
           </li>
-          <li className={style.page} onClick={goNextPage}>
+          <li className={style.page} onClick={() => dispatch(goToNextPage())}>
             {'>>'}
           </li>
         </ul>
@@ -41,36 +37,36 @@ const Pagination = (props: IProps) => {
   return (
     <div>
       <ul className={style.pagination}>
-        {page < props.total && page > 1 && (
+        {page < pages && page > 1 && (
           <>
-            <li className={style.page} onClick={goPrevPage}>
+            <li className={style.page} onClick={() => dispatch(goToPrevPage())}>
               {'<<'}
             </li>
-            <li className={style.page} onClick={() => setCurrentPage(1)}>
+            <li className={style.page} onClick={() => dispatch(goToPage(1))}>
               1
             </li>
             <li className={style.page}>...</li>
             <li className={style.current}>{page}</li>
             <li className={style.page}>...</li>
-            <li className={style.page} onClick={() => setCurrentPage(props.total)}>
-              {props.total}
+            <li className={style.page} onClick={() => dispatch(goToPage(pages))}>
+              {pages}
             </li>
-            <li className={style.page} onClick={goNextPage}>
+            <li className={style.page} onClick={() => dispatch(goToNextPage())}>
               {'>>'}
             </li>
           </>
         )}
 
-        {page === props.total && (
+        {page === pages && (
           <>
-            <li className={style.page} onClick={goPrevPage}>
+            <li className={style.page} onClick={() => dispatch(goToPrevPage())}>
               {'<<'}
             </li>
-            <li className={style.page} onClick={() => setCurrentPage(1)}>
+            <li className={style.page} onClick={() => dispatch(goToPage(1))}>
               1
             </li>
             <li className={style.page}>...</li>
-            <li className={style.current}>{props.total}</li>
+            <li className={style.current}>{pages}</li>
             <li className={style.page}>{'>>'}</li>
           </>
         )}

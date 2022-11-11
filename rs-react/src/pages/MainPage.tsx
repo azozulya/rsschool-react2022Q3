@@ -2,7 +2,6 @@ import React from 'react';
 import { Cards } from '../components/Cards';
 import { SearchBar } from '../components/SearchBar';
 import { Pagination } from '../components/Pagination';
-import { MAX_PHOTOS } from '../utils/constants';
 import { useAppSelector } from '../store/hook';
 import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator';
 import Sort from '../components/Sort/Sort';
@@ -34,7 +33,7 @@ const Main: React.FC = function () {
 
       {loading ? <LoadingIndicator /> : <Cards />}
 
-      {!loading && total > 0 && <Pagination total={pages > MAX_PHOTOS ? MAX_PHOTOS : pages} />}
+      {!loading && total > 0 && <Pagination />}
     </>
   );
 };
