@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { goToNextPage, goToPrevPage, goToPage } from '../../store/photosSlice';
+import { goToNextPage, goToPrevPage, goToPage } from '../../store/thunks';
 import style from './Pagination.module.css';
 
 const Pagination = () => {
