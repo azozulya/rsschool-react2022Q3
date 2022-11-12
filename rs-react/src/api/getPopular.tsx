@@ -9,11 +9,11 @@ async function getPopular(): Promise<TCards | null> {
         return data;
       })
       .catch((error) => {
-        console.log('getPopular error1: ', error);
+        console.error('getPopular error1: ', error);
         return null;
       });
   } catch (error) {
-    console.log('getPopular error2: ', error);
+    console.error('getPopular error2: ', error);
   }
   return null;
 }

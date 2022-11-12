@@ -9,11 +9,11 @@ async function getData(queryString: string, page = 1): Promise<TCards | null> {
         return data;
       })
       .catch((error) => {
-        console.log('getData error1: ', error);
+        console.error('getData error1: ', error);
         return null;
       });
   } catch (error) {
-    console.log('getData error2: ', error);
+    console.error('getData error2: ', error);
   }
   return null;
 }

@@ -9,11 +9,11 @@ async function getMovieDetails(id: number): Promise<TCard | null> {
         return data;
       })
       .catch((error) => {
-        console.log('getMovieDetails error1: ', error);
+        console.error('getMovieDetails error1: ', error);
         return null;
       });
   } catch (error) {
-    console.log('getMovieDetails error2: ', error);
+    console.error('getMovieDetails error2: ', error);
   }
   return null;
 }
