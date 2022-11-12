@@ -5,11 +5,15 @@ type TPhotoResponse = {
   photos: TCards;
 };
 
+const DEFAULT_PAGE = 1;
+const DEFAULT_SORT = 'date-posted-desc';
+const DEFAULT_PER_PAGE = '20';
+
 async function getData(
   queryString: string,
-  page = 1,
-  perpage = '100',
-  sort = 'date-posted-desc'
+  page = DEFAULT_PAGE,
+  perpage = DEFAULT_PER_PAGE,
+  sort = DEFAULT_SORT
 ): Promise<TCards | null> {
   try {
     const url = queryString
