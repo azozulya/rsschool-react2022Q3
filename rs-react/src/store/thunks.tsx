@@ -91,3 +91,14 @@ export const sortItems = createAsyncThunk<TCards, string, { state: { photos: TIn
     }
   }
 );
+
+export const showResentPhotos = createAsyncThunk<TCards, void>(
+  'photos/fetchResentPhotos',
+  async function (_, { rejectWithValue }) {
+    try {
+      return await API.getResentPhotos();
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
