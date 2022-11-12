@@ -14,17 +14,6 @@ const IMG_EMPTY = 'No image';
 
 const MAX_PHOTOS = 500;
 
-const PER_PAGE = [5, 20, 30, 40, 60];
-
-const SORT_PARAMS = [
-  'date-posted-desc',
-  'date-posted-asc',
-  'date-taken-asc',
-  'date-taken-desc',
-  'interestingness-desc',
-  'interestingness-asc',
-];
-
 export {
   IMG_EMPTY,
   SEARCH_STRING_LS,
@@ -34,6 +23,4 @@ export {
   API_IMG_URL,
   API_PHOTO_DETAILS_URL,
   MAX_PHOTOS,
-  PER_PAGE,
-  SORT_PARAMS,
 };
