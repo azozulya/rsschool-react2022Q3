@@ -78,6 +78,7 @@ class Main extends React.Component<TProps, TState> {
   }
 
   searchHandler = async (searchStr: string) => {
+    if (!searchStr) return await this.getPopular();
     await this.getMovies(searchStr);
   };
 
