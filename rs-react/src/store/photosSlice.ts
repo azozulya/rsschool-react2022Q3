@@ -1,6 +1,4 @@
 import { AnyAction, createSlice } from '@reduxjs/toolkit';
-import { redirect } from 'react-router-dom';
-import { TCard } from '../components/Cards/Card/types';
 import { MAX_PHOTOS } from '../utils/constants';
 import { TInitialState } from './types';
 
@@ -10,12 +8,10 @@ const initialState: TInitialState = {
   perpage: '20',
   photo: [],
   loading: false,
-  status: null,
   error: null,
   total: 0,
   searchString: '',
   sort: 'date-posted-desc',
-  users: [],
 };
 
 const photosSlice = createSlice({

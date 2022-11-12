@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import photosReducer from './photosSlice';
+import formReducer from './formSlice';
 
 export const store = configureStore({
   reducer: {
     photos: photosReducer,
+    form: formReducer,
   },
 });
 
