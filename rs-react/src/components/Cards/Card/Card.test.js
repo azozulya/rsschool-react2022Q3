@@ -42,20 +42,5 @@ describe('Card', () => {
     const modal = await screen.findByTestId('modal');
     expect(modal).toBeInTheDocument();
     expect(modal).toBeVisible();
-
-    userEvent.click(screen.getByRole('button', { name: /close/i }));
-    expect(screen.queryByTestId('modal')).toBeNull();
-  });
-
-  test('should close popup after close button click', async () => {
-    render(<Main />);
-
-    const cards = await screen.findAllByTestId('card');
-    act(() => userEvent.click(cards[0]));
-
-    expect(await screen.findByTestId('modal')).toBeInTheDocument();
-
-    userEvent.click(screen.getByRole('button', { name: /close/i }));
-    expect(screen.queryByTestId('modal')).toBeNull();
   });
 });

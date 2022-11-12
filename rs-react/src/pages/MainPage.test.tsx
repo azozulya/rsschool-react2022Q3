@@ -4,6 +4,7 @@ import Main from './MainPage';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { API_POPULAR_URL, API_URL } from '../utils/constants';
 import * as movies from '../assets/testData/movies.json';
+import { act } from 'react-dom/test-utils';
 
 const QUERY_STRING = 'cars';
 
@@ -28,11 +29,6 @@ describe('Main page', () => {
     render(<Main />);
     expect(fetch).toBeCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith(API_POPULAR_URL);
-
-    // const cards = await screen.findAllByTestId('card');
-    // expect(cards).toBeDefined();
-    // expect(cards.length).toBeGreaterThan(1);
-    // expect(await screen.findByText(/popular movies/i)).toBeInTheDocument();
   });
 
   test('should search movie when input changed', async () => {
@@ -40,16 +36,13 @@ describe('Main page', () => {
     const form = screen.getByTestId<HTMLFormElement>('search-form');
     const inputElement = screen.getByRole('textbox');
 
-    userEvent.type(inputElement, QUERY_STRING);
-    fireEvent.submit(form);
+    act(() => {
+      userEvent.type(inputElement, QUERY_STRING);
+      fireEvent.submit(form);
+    });
 
     expect(fetch).toHaveBeenCalledTimes(2);
     expect(fetch).toHaveBeenCalledWith(`${API_URL}&query=${QUERY_STRING}&page=1`);
-
-    // const cards = await screen.findAllByTestId('card');
-    // expect(cards).toBeDefined();
-    // expect(cards.length).toBeGreaterThan(1);
-    // expect(await screen.findByText(/find/i)).toBeInTheDocument();
   });
 
   test('handles exception with null', () => {
