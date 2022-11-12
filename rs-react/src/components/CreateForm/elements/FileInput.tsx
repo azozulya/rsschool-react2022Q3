@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { FieldError, Path, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import React, { useCallback, useEffect, useState } from 'react';
+import {
+  Control,
+  FieldError,
+  Path,
+  UseFormRegister,
+  UseFormSetValue,
+  useWatch,
+} from 'react-hook-form';
 import { IMG_EMPTY } from '../../../utils/constants';
 import { TCreateFormValues } from '../CreateForm.types';
 import style from '../CreateForm.module.css';
@@ -11,6 +18,7 @@ type TFileInputProps = {
   error: FieldError | undefined;
   setValue: UseFormSetValue<TCreateFormValues>;
   isSubmitSuccessful: boolean;
+  control?: Control<TCreateFormValues>;
 };
 
 export const FileInput = ({
@@ -19,16 +27,10 @@ export const FileInput = ({
   params,
   error,
   setValue,
+  control,
   isSubmitSuccessful,
 }: TFileInputProps) => {
   const [avatarUrl, setAvatarUrl] = useState('');
-
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputFile = event.target as HTMLInputElement;
-    const url = URL.createObjectURL(inputFile?.files?.item(0) as File);
-    setAvatarUrl(url);
-    setValue(name, url);
-  };
 
   useEffect(() => {
     if (!isSubmitSuccessful) return;
@@ -36,6 +38,14 @@ export const FileInput = ({
     setAvatarUrl('');
     setValue(name, '');
   }, [isSubmitSuccessful, name, setValue]);
+
+  const preview = useWatch({ control, name, defaultValue: '' }) as unknown as FileList;
+
+  useEffect(() => {
+    if (!preview.length) return;
+    const url = URL.createObjectURL(preview[0] as File);
+    setAvatarUrl(url);
+  }, [preview]);
 
   return (
     <div className={style.fileUploadWrapper}>
@@ -53,9 +63,8 @@ export const FileInput = ({
           aria-label="Choose avatar"
           accept=".jpg, .jpeg, .png"
           className={style.fileInp}
-          onChange={onChange}
+          {...register(name, { ...params })}
         />
-        <input type="hidden" {...register(name, { ...params })} />
         <button className={style.fileCustom}>Choose file</button>
       </label>
 

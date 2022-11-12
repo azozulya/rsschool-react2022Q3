@@ -34,7 +34,7 @@ describe('Form', () => {
   beforeEach(() => {
     URL.createObjectURL = jest.fn(() => testImg);
 
-    render(<CreateForm onSubmit={submitHandler} />);
+    render(<CreateForm />);
 
     formElement = screen.getByRole('form', { name: /user form/i });
     submitBtn = screen.getByRole('button', { name: /submit/i });
