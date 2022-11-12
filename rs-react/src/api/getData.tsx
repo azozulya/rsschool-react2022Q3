@@ -12,19 +12,21 @@ async function getData(
   sort = 'date-posted-desc'
 ): Promise<TCards | null> {
   try {
-    return await fetch(
-      `${API_URL}&text=${queryString}&page=${page}&per_page=${perpage}&sort=${sort}&media=photo&license=4`
-    )
+    const url = queryString
+      ? `&text=${queryString}&page=${page}&per_page=${perpage}&sort=${sort}`
+      : `&page=1&per_page=20&sort=${sort}`;
+
+    return await fetch(`${API_URL}${url}&media=photo&license=4`)
       .then((response) => response.json() as Promise<TPhotoResponse>)
       .then((data: TPhotoResponse) => {
         return data.photos;
       })
       .catch((error) => {
-        console.log('getData error1: ', error);
+        console.error('getData error1: ', error);
         return null;
       });
   } catch (error) {
-    console.log('getData error2: ', error);
+    console.error('getData error2: ', error);
   }
   return null;
 }

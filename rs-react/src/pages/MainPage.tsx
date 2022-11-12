@@ -4,10 +4,10 @@ import { Cards } from '../components/Cards';
 import { SearchBar } from '../components/SearchBar';
 import { Pagination } from '../components/Pagination';
 import { MAX_PHOTOS } from '../utils/constants';
-import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator';
-import Sort from '../components/Sort/Sort';
 import { useGlobalState } from '../state/globalStateContext';
 import { useDispatch } from '../state/dispatchContext';
+import LoadingIndicator from '../components/LoadingIndicator/LoadingIndicator';
+import Sort from '../components/Sort/Sort';
 
 const Main: React.FC = function () {
   const { updatePhotos, emptySearch } = useDispatch();
@@ -27,11 +27,14 @@ const Main: React.FC = function () {
         }
 
         updatePhotos(photoData);
-        setTitle(
-          `Page ${photoData.page} from ${
-            photoData.pages > MAX_PHOTOS ? MAX_PHOTOS : photoData.pages
-          }`
-        );
+
+        const title = str
+          ? `Page ${photoData.page} from ${
+              photoData.pages > MAX_PHOTOS ? MAX_PHOTOS : photoData.pages
+            }`
+          : 'Popular images';
+
+        setTitle(title);
         setLoading(false);
       });
     },
@@ -39,7 +42,6 @@ const Main: React.FC = function () {
   );
 
   useEffect(() => {
-    if (!searchString) return;
     getPhotos(searchString);
   }, [getPhotos, searchString]);
 
@@ -47,7 +49,8 @@ const Main: React.FC = function () {
     return (
       <>
         <SearchBar />
-        <div>Let find something interesting</div>
+        <h2>{title}</h2>
+        {loading ? <LoadingIndicator /> : photo.length > 0 && <Cards items={photo} />}
       </>
     );
 
