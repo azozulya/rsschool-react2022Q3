@@ -13,12 +13,12 @@
 
 
 .content {
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
   width: 80%;
   max-width: 60rem;
   height: 70%;
   overflow-y: auto;
-
+  overflow-x: hidden;
   box-sizing: border-box;
   border-radius: 0.8rem;
   box-shadow: 0 0 1rem 0.2rem;
@@ -47,7 +47,7 @@
 }
   
 .close:hover {
-  background-color: antiquewhite;
+  background-color: rgb(250, 235, 215);
   box-shadow: 0 0 .3rem .1rem rgba(0, 0, 0, .5);
 }
   

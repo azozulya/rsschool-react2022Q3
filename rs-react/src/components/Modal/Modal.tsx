@@ -75,7 +75,7 @@ export class Modal extends Component<TModalProps, TModalState> {
                 <p>
                   <span className={style.label}>Release date:</span> {dateFormat(release_date)}
                 </p>
-                {budget > 0 && (
+                {!!budget && (
                   <p>
                     <span className={style.label}>Budget</span>
                     {currencyFormat(budget)}
