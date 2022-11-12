@@ -90,7 +90,7 @@ class Main extends React.Component<TProps, TState> {
   closeHandler = (event: React.MouseEvent<HTMLElement>) => {
     const element = event.target as HTMLElement;
 
-    if (element.closest('[data-id=modal]') && element.ariaLabel !== 'Close') return;
+    if (element.closest('[data-testid=modal]') && element.ariaLabel !== 'Close') return;
 
     this.setState({ currentMovieID: null });
     document.body.classList.remove('noscroll');
