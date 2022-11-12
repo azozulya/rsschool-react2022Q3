@@ -44,7 +44,6 @@ function Sort() {
   };
 
   const onSortChangeHandler = () => {
-    console.log('sort: ', sortRef.current && sortRef.current.value);
     sortRef.current && dispatch(sortItems(sortRef.current.value));
   };
 
